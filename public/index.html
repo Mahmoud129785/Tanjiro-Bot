@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تنصيب البوت</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--muted:#94a3b8;--accent:#22c55e;--err:#f87171}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;padding:16px}
+.card{width:100%;max-width:420px;background:var(--card);border-radius:20px;padding:28px 22px;text-align:center}
+h1{margin:0 0 6px;font-size:1.5rem}
+p.sub{margin:0 0 22px;color:var(--muted);font-size:.95rem}
+input{width:100%;padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:var(--text);font-size:1.1rem;text-align:center;direction:ltr}
+button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#052e16;font-size:1.05rem;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.code{font-size:2.2rem;letter-spacing:4px;font-weight:800;margin:18px 0 8px;direction:ltr;color:var(--accent)}
+.steps{text-align:right;color:var(--muted);font-size:.92rem;line-height:1.9;margin-top:14px}
+.err{color:var(--err);margin-top:12px;min-height:1.2em}
+.ok{color:var(--accent);font-weight:700;margin-top:12px}
+.hidden{display:none}
+.secondary{background:#334155;color:var(--text)}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🤖 تنصيب البوت</h1>
+  <p class="sub">اكتب رقمك بالصيغة الدولية بدون + أو أصفار</p>
+
+  <div id="form">
+    <input id="num" type="tel" inputmode="numeric" placeholder="مثال: 96879361xxxx" autocomplete="tel">
+    <button id="go">احصل على كود الربط</button>
+  </div>
+
+  <div id="result" class="hidden">
+    <div class="code" id="code"></div>
+    <button class="secondary" id="copy">نسخ الكود</button>
+    <div class="steps">
+      1) افتح واتساب ← الأجهزة المرتبطة<br>
+      2) اضغط «ربط جهاز»<br>
+      3) اختر «الربط برقم الهاتف بدلاً من ذلك»<br>
+      4) اكتب الكود أعلاه (صالح لدقائق قليلة)
+    </div>
+    <div class="ok" id="wait">⏳ بانتظار الربط...</div>
+  </div>
+
+  <div class="err" id="err"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let poll=null;
+$('go').onclick=async()=>{
+  const number=$('num').value.replace(/\D/g,'');
+  $('err').textContent='';
+  if(number.length<8){$('err').textContent='اكتب الرقم بشكل صحيح';return}
+  $('go').disabled=true;$('go').textContent='جاري توليد الكود...';
+  try{
+    const r=await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number})});
+    const d=await r.json();
+    if(!d.ok) throw new Error(d.error||'خطأ');
+    if(d.connected){$('form').classList.add('hidden');$('result').classList.remove('hidden');$('code').textContent='✅';$('wait').textContent='هذا الرقم مربوط من قبل';return}
+    $('form').classList.add('hidden');$('result').classList.remove('hidden');
+    $('code').textContent=d.code;
+    poll=setInterval(async()=>{
+      const s=await (await fetch('/api/status?number='+number)).json();
+      if(s.connected){clearInterval(poll);$('wait').textContent='✅ تم ربط البوت بنجاح!'}
+    },3000);
+  }catch(e){$('err').textContent=e.message;$('go').disabled=false;$('go').textContent='احصل على كود الربط'}
+};
+$('copy').onclick=()=>{navigator.clipboard?.writeText($('code').textContent.replace(/-/g,''));$('copy').textContent='تم النسخ ✓'};
+</script>
+</body>
+</html>
