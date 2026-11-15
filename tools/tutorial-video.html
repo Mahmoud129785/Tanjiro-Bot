@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tanjiro — دليل نسخ رمز الربط</title>
+<style>
+@font-face { font-family: NotoAr; src: local('Noto Sans Arabic'); font-weight: 100 900; }
+@font-face { font-family: NotoNaskh; src: local('Noto Naskh Arabic'); font-weight: 400 700; }
+:root { --bg:#06111b; --panel:#0d202e; --panel2:#102a3a; --ink:#f3f9fd; --mut:#acc0cb; --blue:#89cff0; --deep:#2a86bf; --green:#39c88a; --line:rgba(137,207,240,.20); }
+* { box-sizing:border-box; }
+html,body { width:720px;height:1280px;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:NotoAr,'Noto Naskh Arabic',sans-serif; }
+#stage { width:720px;height:1280px;position:relative;overflow:hidden;direction:rtl;background:radial-gradient(ellipse at 78% 19%,rgba(42,134,191,.31),transparent 37%),radial-gradient(ellipse at 18% 85%,rgba(137,207,240,.11),transparent 34%),linear-gradient(160deg,#07131d 0%,#02070b 100%); }
+#stage:before { content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(137,207,240,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(137,207,240,.06) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 10%,transparent 82%); }
+#stage:after { content:'';position:absolute;inset:24px;border:1px solid rgba(137,207,240,.13);border-radius:38px;pointer-events:none; }
+.topbar { position:absolute;top:56px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;z-index:2;direction:ltr; }
+.brand { display:flex;align-items:center;gap:12px;direction:ltr;font:800 20px/1 Arial,sans-serif;letter-spacing:.08em; }
+.brand-mark { width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:#092033;background:var(--blue);font:900 23px/1 Arial,sans-serif;box-shadow:0 0 28px rgba(137,207,240,.25); }
+.brand small { font:500 10px/1 Arial,sans-serif;letter-spacing:.16em;color:var(--mut);display:block;margin-top:5px; }
+.progress { font:700 13px/1 Arial,sans-serif;color:var(--blue);direction:ltr; }
+.intro { position:absolute;top:128px;left:64px;right:64px;text-align:center;z-index:2; }
+.kicker { display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:7px 15px;color:var(--blue);font-size:13px;font-weight:600;background:rgba(9,27,40,.65); }
+.kicker i { width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue); }
+h1 { margin:23px auto 10px;font-size:38px;line-height:1.38;font-weight:800;letter-spacing:0;max-width:590px; }
+.subtitle { margin:0 auto;color:var(--mut);font-size:17px;line-height:1.8;max-width:550px; }
+.stage-body { position:absolute;top:330px;left:64px;right:64px;height:690px;display:grid;place-items:center;z-index:2; }
+.stepcard { width:100%;min-height:590px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(145deg,rgba(16,42,58,.94),rgba(7,20,30,.97));padding:28px;box-shadow:0 28px 80px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.04);position:relative;overflow:hidden; }
+.stepcard:before { content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(42,134,191,.13);filter:blur(65px);top:-150px;left:-70px; }
+.ui-top { display:flex;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--line);direction:ltr;position:relative; }
+.ui-brand { font:800 18px/1 Arial,sans-serif;letter-spacing:-.02em;display:flex;gap:9px;align-items:center; }
+.ui-brand i { width:27px;height:27px;border-radius:8px;background:var(--blue);color:#0a2540;display:grid;place-items:center;font:900 16px/1 Arial,sans-serif; }
+.ui-tag { color:var(--mut);font-size:12px; }
+.form { direction:rtl;position:relative;padding-top:28px; }
+.form label { display:block;font-size:15px;color:var(--mut);margin-bottom:10px; }
+.phone-input { direction:ltr;text-align:left;border:1px solid rgba(137,207,240,.34);border-radius:15px;background:#07141e;padding:17px 18px;font:600 19px/1.2 Arial,sans-serif;color:#effaff;letter-spacing:.04em; }
+.primary { margin-top:16px;background:var(--blue);color:#082138;text-align:center;border-radius:15px;padding:16px 18px;font-size:16px;font-weight:800;box-shadow:0 10px 32px rgba(137,207,240,.14); }
+.helper { margin-top:16px;color:var(--mut);font-size:13px;line-height:1.75; }
+.code-label { margin:30px 0 8px;color:var(--mut);font-size:14px;text-align:center; }
+.codebox { direction:ltr;letter-spacing:.16em;text-align:center;font:800 35px/1.2 Arial,sans-serif;color:var(--blue);padding:18px 12px;border:1px dashed rgba(137,207,240,.42);border-radius:16px;background:rgba(4,14,22,.65); }
+.copy-btn { margin-top:16px;border:1px solid rgba(137,207,240,.4);border-radius:14px;padding:14px;background:rgba(137,207,240,.08);display:flex;justify-content:center;align-items:center;gap:10px;color:var(--ink);font-size:15px;font-weight:700; }
+.copy-icon { width:19px;height:21px;border:2px solid var(--blue);border-radius:4px;position:relative; }
+.copy-icon:after { content:'';position:absolute;inset:-5px 4px 4px -5px;border:2px solid var(--blue);border-radius:4px;background:#0d202e; }
+.toast { margin-top:13px;text-align:center;border:1px solid rgba(57,200,138,.35);border-radius:12px;background:rgba(57,200,138,.11);color:#a6f2cf;padding:10px;font-size:14px;font-weight:700; }
+.pointer { position:absolute;right:137px;bottom:104px;width:0;height:0;border-left:0;border-right:24px solid transparent;border-top:0;border-bottom:34px solid #fff;transform:rotate(-32deg);filter:drop-shadow(0 3px 4px rgba(0,0,0,.8));z-index:5; }
+.pointer:after { content:'';position:absolute;top:26px;left:2px;width:11px;height:28px;background:#fff;transform:rotate(-12deg);border-radius:2px; }
+.copy-ring { position:absolute;right:119px;bottom:83px;width:55px;height:55px;border:3px solid var(--blue);border-radius:50%;box-shadow:0 0 22px rgba(137,207,240,.7); }
+.phone-shell { width:352px;min-height:590px;border:9px solid #c8d6df;border-radius:43px;background:#f6faf8;color:#0b1710;padding:0 0 18px;box-shadow:0 25px 70px rgba(0,0,0,.42);direction:ltr;position:relative;overflow:hidden; }
+.phone-notch { position:absolute;top:5px;left:50%;transform:translateX(-50%);width:92px;height:19px;border-radius:0 0 13px 13px;background:#c8d6df;z-index:2; }
+.wa-head { height:78px;background:#075e54;color:#fff;padding:32px 16px 12px;display:flex;align-items:center;gap:12px;direction:rtl;font-size:17px;font-weight:700; }
+.wa-back { font:700 27px/1 Arial,sans-serif;transform:scaleX(-1); }
+.wa-profile { width:30px;height:30px;border-radius:50%;background:#c7f0e4;color:#075e54;display:grid;place-items:center;font-size:16px; }
+.wa-content { padding:18px 15px;direction:rtl; }
+.wa-card { border:1px solid #dce8e1;border-radius:15px;background:#fff;padding:16px;margin:10px 0;box-shadow:0 3px 9px rgba(0,0,0,.04); }
+.wa-row { display:flex;align-items:center;gap:12px;min-height:58px;border-bottom:1px solid #edf1ee;font-size:15px; }
+.wa-row:last-child { border-bottom:0; }
+.wa-icon { width:30px;height:30px;border-radius:9px;background:#e6f6f0;color:#087b60;display:grid;place-items:center;font-size:16px;flex:none; }
+.wa-label { flex:1; }
+.wa-sub { display:block;color:#78877d;font-size:11px;margin-top:3px; }
+.wa-arrow { color:#87948c;font:20px/1 Arial,sans-serif; }
+.wa-section { margin:8px 0;color:#617168;font-size:12px;font-weight:700; }
+.wa-highlight { outline:3px solid #68dcb1;box-shadow:0 0 0 5px rgba(104,220,177,.20);border-radius:11px;background:#f0fff8; }
+.code-input-label { margin:16px 2px 8px;color:#506259;font-size:13px; }
+.code-input { direction:ltr;text-align:center;padding:16px 10px;border:1px solid #b7cec0;border-radius:10px;background:#fff;font:700 21px/1.1 Arial,sans-serif;letter-spacing:.12em;color:#10271c; }
+.next-btn { margin-top:15px;text-align:center;background:#087b60;color:#fff;border-radius:11px;padding:13px;font-size:15px;font-weight:700; }
+.clipboard { margin:15px auto 0;width:max-content;padding:8px 13px;border-radius:99px;background:#f0fff8;border:1px solid #9fdcc3;color:#087b60;font:700 12px/1 Arial,sans-serif;direction:rtl; }
+.success-mark { width:92px;height:92px;border-radius:50%;margin:30px auto 14px;display:grid;place-items:center;background:rgba(57,200,138,.14);border:1px solid rgba(57,200,138,.35);color:#65e0aa;font:500 54px/1 Arial,sans-serif;box-shadow:0 0 45px rgba(57,200,138,.18); }
+.success-copy { text-align:center;position:relative; }
+.success-copy strong { font-size:26px;display:block;margin-bottom:9px; }
+.success-copy span { color:var(--mut);font-size:15px;line-height:1.7;display:block; }
+.sample-note { margin:25px auto 0;padding:13px 16px;max-width:420px;border:1px solid rgba(137,207,240,.25);border-radius:14px;color:#d2e7f1;background:rgba(137,207,240,.07);font-size:13px;line-height:1.7;text-align:center; }
+.flow-art { display:flex;justify-content:center;align-items:center;gap:23px;margin:34px auto 0;direction:ltr; }
+.flow-device { width:112px;height:190px;border:6px solid #d3e5ed;border-radius:25px;background:linear-gradient(160deg,#0d2637,#08131c);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:11px;box-shadow:0 12px 30px rgba(0,0,0,.28); }
+.flow-device i { width:61px;height:16px;border-radius:6px;background:rgba(137,207,240,.55);box-shadow:0 0 16px rgba(137,207,240,.2); }
+.flow-device i:nth-child(2) { width:75px;background:var(--blue); }
+.flow-device i:nth-child(3) { width:51px; }
+.flow-link { width:78px;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);position:relative; }
+.flow-link:after { content:'›';position:absolute;right:0;top:-20px;color:var(--blue);font:40px/1 Arial,sans-serif; }
+.bottom { position:absolute;bottom:60px;left:64px;right:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:2;border-top:1px solid var(--line);padding-top:17px;color:var(--mut);font-size:12px; }
+.bottom strong { color:var(--blue);font:700 12px/1 Arial,sans-serif;direction:ltr; }
+[data-scene] .phone-shell,[data-scene] .form,[data-scene] .success-copy { transition:all .3s ease; }
+</style>
+</head>
+<body>
+<div id="stage" data-scene="intro">
+  <div class="topbar"><div class="brand"><span class="brand-mark">↗</span><span>TANJIRO<small>WHATSAPP BOT PAIRING</small></span></div><div class="progress" id="progress">01 / 07</div></div>
+  <div class="intro"><span class="kicker"><i></i><span id="kicker">دليل تنصيب البوت</span></span><h1 id="title">كيف تنسخ رمز الربط وتدخله في واتساب؟</h1><p class="subtitle" id="subtitle">خطوات واضحة — من صفحة Tanjiro إلى الأجهزة المرتبطة.</p></div>
+  <div class="stage-body"><div class="stepcard" id="stepcard"></div></div>
+  <div class="bottom"><span id="footer">رمز العرض توضيحي فقط — استخدم الرمز الذي يظهر لك</span><strong id="step-label">START HERE</strong></div>
+</div>
+<script>
+const scenes={
+intro:{kicker:'دليل تنصيب البوت',title:'كيف تنسخ رمز الربط وتدخله في واتساب؟',subtitle:'خطوات واضحة — من صفحة Tanjiro إلى الأجهزة المرتبطة.',footer:'رمز العرض توضيحي فقط — استخدم الرمز الذي يظهر لك',label:'START HERE',html:`<div class="ui-top"><div class="ui-brand"><i>↗</i> Tanjiro</div><span class="ui-tag">PAIRING GUIDE</span></div><div class="flow-art"><div class="flow-device"><i></i><i></i><i></i></div><div class="flow-link"></div><div class="flow-device"><i></i><i></i><i></i></div></div><div class="success-copy" style="margin-top:35px"><strong>انسخ. الصق. اتصل.</strong><span>سنريك أين تجد الرمز وكيف تدخله بأمان.</span></div>`},
+number:{kicker:'الخطوة 1 من 5',title:'أدخل رقم هاتفك',subtitle:'اكتب الرقم بالصيغة الدولية، من دون علامة +.',footer:'استخدم رقماً تملكه أو لديك إذن باستخدامه',label:'01 · YOUR NUMBER',html:`<div class="ui-top"><div class="ui-brand"><i>↗</i> Tanjiro</div><span class="ui-tag">INSTALL</span></div><div class="form"><label>رقم الهاتف</label><div class="phone-input">9689XXXXXXXX</div><div class="primary">احصل على رمز الربط　↗</div><p class="helper">أدخل رقمك بالصيغة الدولية، من دون علامة + أو أصفار في البداية.</p></div>`},
+request:{kicker:'الخطوة 2 من 5',title:'اطلب رمز الربط',subtitle:'اضغط الزر، ثم انتظر حتى يظهر الرمز المخصص لرقمك.',footer:'لا تشارك رمز الربط مع أي شخص',label:'02 · REQUEST CODE',html:`<div class="ui-top"><div class="ui-brand"><i>↗</i> Tanjiro</div><span class="ui-tag">PAIRING CODE</span></div><div class="form"><label>رمز الربط الخاص بك</label><div class="code-label">مثال توضيحي</div><div class="codebox">AB12-CD34</div><div class="copy-btn"><span class="copy-icon"></span> انسخ الكود</div><p class="helper" style="text-align:center">سيظهر الرمز الحقيقي هنا بعد طلبه.</p></div>`},
+copy:{kicker:'الخطوة 3 من 5',title:'انسخ الرمز بضغطة واحدة',subtitle:'اضغط «نسخ الرمز»؛ ستظهر رسالة تؤكد نجاح النسخ.',footer:'الفيديو يستخدم رمزاً تجريبياً غير صالح للربط',label:'03 · COPY CODE',html:`<div class="ui-top"><div class="ui-brand"><i>↗</i> Tanjiro</div><span class="ui-tag">PAIRING CODE</span></div><div class="form"><label>رمز الربط الخاص بك</label><div class="code-label">مثال توضيحي</div><div class="codebox">AB12-CD34</div><div class="copy-btn"><span class="copy-icon"></span> انسخ الكود</div><div class="toast">✓　تم نسخ الرمز. الصقه في واتساب.</div><div class="copy-ring"></div><div class="pointer"></div></div>`},
+linked:{kicker:'الخطوة 4 من 5',title:'افتح الأجهزة المرتبطة',subtitle:'في واتساب: الإعدادات، ثم «الأجهزة المرتبطة»، ثم «ربط جهاز».',footer:'قد تختلف أسماء القوائم قليلاً حسب لغة واتساب',label:'04 · LINKED DEVICES',html:`<div class="phone-shell"><div class="phone-notch"></div><div class="wa-head"><span class="wa-back">›</span><span class="wa-profile">●</span><span>الإعدادات</span></div><div class="wa-content"><div class="wa-section">الحساب</div><div class="wa-card"><div class="wa-row"><span class="wa-icon">▣</span><span class="wa-label">الخصوصية</span><span class="wa-arrow">‹</span></div><div class="wa-row wa-highlight"><span class="wa-icon">▱</span><span class="wa-label">الأجهزة المرتبطة<span class="wa-sub">اربط جهازاً بواتساب</span></span><span class="wa-arrow">‹</span></div></div><div class="wa-section">التطبيق</div><div class="wa-card"><div class="wa-row"><span class="wa-icon">◉</span><span class="wa-label">الحساب</span><span class="wa-arrow">‹</span></div></div><div class="clipboard">افتح «الأجهزة المرتبطة»</div></div></div>`},
+phonecode:{kicker:'الخطوة 5 من 5',title:'اختر الربط برقم الهاتف',subtitle:'بعد «ربط جهاز»، اختر الربط برقم الهاتف ثم الصق الرمز.',footer:'الصق الرمز نفسه الذي نسخته من موقع Tanjiro',label:'05 · PASTE CODE',html:`<div class="phone-shell"><div class="phone-notch"></div><div class="wa-head"><span class="wa-back">›</span><span class="wa-profile">●</span><span>ربط جهاز</span></div><div class="wa-content"><div class="wa-card"><div class="wa-row"><span class="wa-icon">▣</span><span class="wa-label">ربط جهاز</span><span class="wa-arrow">‹</span></div><div class="wa-row wa-highlight"><span class="wa-icon">⌨</span><span class="wa-label">الربط برقم الهاتف بدلاً من ذلك</span><span class="wa-arrow">‹</span></div></div><div class="wa-section">أدخل الرمز الظاهر في Tanjiro</div><div class="code-input-label">رمز الربط</div><div class="code-input">AB12CD34</div><div class="next-btn">التالي</div><div class="clipboard">لصق الرمز من الحافظة</div></div></div>`},
+success:{kicker:'اكتمل الربط',title:'تم الربط بنجاح',subtitle:'ارجع إلى Tanjiro؛ ستتحدث الحالة عند اتصال البوت.',footer:'تذكير: استخدم دائماً الرمز الحقيقي الخاص بك',label:'LINKED · DONE',html:`<div class="success-copy"><div class="success-mark">✓</div><strong>بوتك متصل الآن</strong><span>الآن أصبح هاتفك مرتبطاً، ويمكنك متابعة الحالة من لوحة التحكم.</span><div class="sample-note">الرمز AB12-CD34 في هذا الفيديو مثال توضيحي فقط. انسخ الرمز الذي يُنشأ لرقمك أنت.</div><div class="primary" style="margin:26px auto 0;max-width:290px">افتح لوحة التحكم　↗</div></div>`}
+};
+window.renderTutorialScene = function(name) { const scene=scenes[name]; if(!scene) throw new Error('Unknown scene: '+name); document.documentElement.lang='ar'; document.getElementById('stage').dataset.scene=name; document.getElementById('kicker').textContent=scene.kicker; document.getElementById('title').textContent=scene.title; document.getElementById('subtitle').textContent=scene.subtitle; document.getElementById('footer').textContent=scene.footer; document.getElementById('step-label').textContent=scene.label; document.getElementById('stepcard').innerHTML=scene.html; const index=Object.keys(scenes).indexOf(name)+1; document.getElementById('progress').textContent=String(index).padStart(2,'0')+' / 07'; };
+</script>
+</body>
+</html>

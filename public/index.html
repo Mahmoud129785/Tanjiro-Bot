@@ -99,6 +99,7 @@ input{width:100%;padding:17px 20px;border-radius:16px;border:1px solid var(--lin
 <link rel="stylesheet" href="bento.css">
 <link rel="stylesheet" href="staggeredmenu.css">
 <link rel="stylesheet" href="pillnav.css">
+<link rel="stylesheet" href="guide.css">
 </head>
 <body>
 <div id="ld"><div class="orb"><div class="loader-wrapper"><span class="loader-letter">T</span><span class="loader-letter">A</span><span class="loader-letter">N</span><span class="loader-letter">J</span><span class="loader-letter">I</span><span class="loader-letter">R</span><span class="loader-letter">O</span><div class="loader"></div></div></div></div>
@@ -111,6 +112,7 @@ input{width:100%;padding:17px 20px;border-radius:16px;border:1px solid var(--lin
 <script src="staggeredmenu.js"></script>
 <script src="pillnav.js"></script>
 <script src="wireterrain.js"></script>
+<script src="guide.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 let L=localStorage.getItem('l')||'en',TH=localStorage.getItem('t')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'),MO=localStorage.getItem('m')!=='0',MY=localStorage.getItem('my')||'';
@@ -190,6 +192,9 @@ PN=mountPillNav($('#pn'),{logo:ic('bolt'),items:[['dashboard',x('Dashboard','ل�
 function route(){const h=location.hash.replace(/^#\//,'')||'home',app=h.startsWith('app/'),k=app?h.slice(4):h,pg=app?A[k]:P[k];if(!pg){location.hash='#/home';return}
 if(mode!==(app?'app':'land'))shell(app?'app':'land');
 ScrollTrigger.getAll().forEach(t=>t.kill());SH.forEach(m=>m.dispose());SH=[];WT.forEach(f=>f&&f());WT=[];if(BN){BN();BN=null}$('#pg').innerHTML=pg();$$('[data-p]').forEach(a=>a.classList.toggle('on',a.dataset.p===k));PN&&PN.setActive('#/app/'+k);
+if(app&&k==='install'){const cp=$('#cp');if(cp&&!$('#cpm')){const s=document.createElement('p');s.id='cpm';s.className='copy-feedback';s.setAttribute('role','status');s.setAttribute('aria-live','polite');cp.insertAdjacentElement('afterend',s)}}
+if(!app&&k==='home')$('.cta')?.insertAdjacentHTML('beforebegin',window.createGuideSection(x));
+if(app&&k==='guides')$('#pg').insertAdjacentHTML('beforeend',window.createGuideSection(x,'app'));
 if(app){const f=PA.flatMap(g=>g[2]).find(p=>p[0]===k);$('#tt').textContent=f?x(f[1],f[2]):'';$('#sd')?.classList.remove('o');$('#sc')?.classList.remove('o')}
 $('#mn')?.classList.remove('o');lenis?.scrollTo(0,{immediate:true});scrollTo(0,0);post();
 if(MO)gsap.fromTo('#pg',{opacity:0,y:28},{opacity:1,y:0,duration:.9,ease:'expo.out'});if(k==='status')status()}
@@ -208,7 +213,7 @@ async function load(){const d=await J('/api/stats');S.st=d&&d.ok?d:null;if(S.st&
 async function pair(){const n=$('#num').value.replace(/\D/g,''),er=$('#er');er.textContent='';if(n.length<8){er.textContent=x('Enter a valid number.','أدخل رقماً صحيحاً.');return}
 const b=$('#go');b.disabled=true;const d=await J('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number:n})});b.disabled=false;
 if(!d||!d.ok){er.textContent=d?.error||x('Server is unavailable. Try again shortly.','السيرفر غير متاح. حاول بعد قليل.');return}
-MY=n;localStorage.setItem('my',n);$('#fm').style.display='none';$('#rs').style.display='block';$('#cd').textContent=d.connected?'OK':d.code;$('#cp').onclick=()=>{navigator.clipboard?.writeText(d.code.replace(/-/g,''))};
+MY=n;localStorage.setItem('my',n);$('#fm').style.display='none';$('#rs').style.display='block';$('#cd').textContent=d.connected?'OK':d.code;$('#cp').onclick=async()=>{const s=$('#cpm');try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(d.code.replace(/-/g,''));s.textContent=x('Code copied. Paste it in WhatsApp.','تم نسخ الرمز. الصقه في واتساب.')}catch{s.textContent=x('Clipboard unavailable — copy the code manually.','الحافظة غير متاحة؛ انسخ الرمز يدوياً.')}};
 if(d.connected){$('#wt').lastChild.textContent=x('Already linked','مربوط مسبقاً');return}
 const t=setInterval(async()=>{if(!$('#wt')){clearInterval(t);return}const s=await J('/api/status?number='+n);if(s?.connected){clearInterval(t);$('#wt').innerHTML=`${ic('check')}${x('Linked successfully','تم الربط بنجاح')}`;load()}},3000)}
 /* ---------- actions ---------- */
