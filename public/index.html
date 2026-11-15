@@ -1,73 +1,231 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تنصيب البوت</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tanjiro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--muted:#94a3b8;--accent:#22c55e;--err:#f87171}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;padding:16px}
-.card{width:100%;max-width:420px;background:var(--card);border-radius:20px;padding:28px 22px;text-align:center}
-h1{margin:0 0 6px;font-size:1.5rem}
-p.sub{margin:0 0 22px;color:var(--muted);font-size:.95rem}
-input{width:100%;padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:var(--text);font-size:1.1rem;text-align:center;direction:ltr}
-button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#052e16;font-size:1.05rem;font-weight:700;cursor:pointer}
-button:disabled{opacity:.6;cursor:wait}
-.code{font-size:2.2rem;letter-spacing:4px;font-weight:800;margin:18px 0 8px;direction:ltr;color:var(--accent)}
-.steps{text-align:right;color:var(--muted);font-size:.92rem;line-height:1.9;margin-top:14px}
-.err{color:var(--err);margin-top:12px;min-height:1.2em}
-.ok{color:var(--accent);font-weight:700;margin-top:12px}
-.hidden{display:none}
-.secondary{background:#334155;color:var(--text)}
+:root{--bg:#ffffff;--bg2:#f3f9fd;--ink:#0a2540;--mut:color-mix(in srgb,var(--ink) 56%,var(--bg));--line:color-mix(in srgb,var(--ink) 11%,var(--bg));--b:#89cff0;--bt:#2a86bf;--b2:#2a86bf;--card:#ffffff;--glow-rgb:42,134,191;--lo-hi:#ffffff;--lo-mid:#5fb4e0;--lo-dark:#2a86bf;--lo-text:#0a2540;--ease:cubic-bezier(.22,1,.36,1)}
+[data-t=dark]{--bg:#000000;--bg2:#06090c;--ink:#f3f9fd;--mut:color-mix(in srgb,var(--ink) 58%,var(--bg));--line:color-mix(in srgb,var(--ink) 13%,var(--bg));--b:#89cff0;--bt:#89cff0;--b2:#89cff0;--card:#05080b;--glow-rgb:137,207,240;--lo-hi:#89cff0;--lo-mid:#3d96c9;--lo-dark:#06141d;--lo-text:#ffffff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-width:none}html::-webkit-scrollbar{display:none}
+html.lenis{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.65 'DM Sans',system-ui,sans-serif;transition:background .6s var(--ease),color .6s var(--ease);overflow-x:hidden}
+[dir=rtl] body{font-family:'Readex Pro','DM Sans',sans-serif}
+h1,h2,h3,.dsp{font-family:'Bricolage Grotesque','Readex Pro',sans-serif;letter-spacing:-.035em;line-height:1.02;font-weight:700}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3,[dir=rtl] .dsp{letter-spacing:0;line-height:1.25}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.ic{width:20px;height:20px;flex:none}.ci{width:34px;height:34px;color:var(--bt);margin-bottom:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:99px;background:var(--b);color:#0a2540;font-weight:600;transition:transform .5s var(--ease),box-shadow .5s var(--ease),background .3s}
+.btn:hover{box-shadow:0 18px 40px -14px var(--b)}.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.g:hover{border-color:var(--bt);box-shadow:none}
+[dir=rtl] .btn .ar{transform:scaleX(-1)}
+.ib{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:border-color .3s,transform .5s var(--ease)}.ib:hover{border-color:var(--bt);transform:rotate(12deg)}
+.tx{font-weight:600;font-size:13px;letter-spacing:.08em;padding:0 14px;width:auto;border-radius:99px}
+/* loader: Vexel orb loader (Uiverse by dexter-st), copied from orb.css */
+#ld{position:fixed;inset:0;z-index:99;background:var(--bg);display:grid;place-items:center}
+.orb{width:240px;height:240px}
+.loader-wrapper { --u: var(--orb-u, 1.333); --spin: var(--orb-spin, 2.4s); position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-family: inherit; font-size: calc(1.45em * var(--orb-fs, 1)); font-weight: 300; color: var(--lo-text); border-radius: 50%; background-color: transparent; user-select: none; }
+.loader { position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; background-color: transparent; animation: loader-rotate var(--spin) linear infinite; z-index: 0; }
+@keyframes loader-rotate {
+  0% { transform: rotate(90deg); box-shadow: 0 calc(10px * var(--u)) calc(20px * var(--u)) 0 var(--lo-hi) inset, 0 calc(20px * var(--u)) calc(30px * var(--u)) 0 #89cff0 inset, 0 calc(60px * var(--u)) calc(60px * var(--u)) 0 var(--lo-mid) inset; }
+  50% { transform: rotate(270deg); box-shadow: 0 calc(10px * var(--u)) calc(20px * var(--u)) 0 var(--lo-hi) inset, 0 calc(20px * var(--u)) calc(10px * var(--u)) 0 #d6eefb inset, 0 calc(40px * var(--u)) calc(60px * var(--u)) 0 var(--lo-dark) inset; }
+  100% { transform: rotate(450deg); box-shadow: 0 calc(10px * var(--u)) calc(20px * var(--u)) 0 var(--lo-hi) inset, 0 calc(20px * var(--u)) calc(30px * var(--u)) 0 #89cff0 inset, 0 calc(60px * var(--u)) calc(60px * var(--u)) 0 var(--lo-mid) inset; }
+}
+.loader-letter { display: inline-block; opacity: 0.4; transform: translateY(0); animation: loader-letter-anim 2s infinite; z-index: 1; border-radius: 50ch; border: none; }
+.loader-letter:nth-child(1) { animation-delay: 0s; } .loader-letter:nth-child(2) { animation-delay: .1s; } .loader-letter:nth-child(3) { animation-delay: .2s; }
+.loader-letter:nth-child(4) { animation-delay: .3s; } .loader-letter:nth-child(5) { animation-delay: .4s; } .loader-letter:nth-child(6) { animation-delay: .5s; }
+.loader-letter:nth-child(7) { animation-delay: .6s; } .loader-letter:nth-child(8) { animation-delay: .7s; } .loader-letter:nth-child(9) { animation-delay: .8s; }
+.loader-letter:nth-child(10) { animation-delay: .9s; }
+@keyframes loader-letter-anim { 0%, 100% { opacity: 0.4; transform: translateY(0); } 20% { opacity: 1; transform: scale(1.15); } 40% { opacity: 0.7; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .loader, .loader-letter { animation: none !important; } .loader-letter { opacity: 1; } }
+/* nav */
+.nav{position:fixed;inset-inline:0;top:0;z-index:50;display:flex;align-items:center;gap:18px;padding:16px 4vw;backdrop-filter:blur(18px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:800 21px 'Bricolage Grotesque';letter-spacing:-.02em}.logo i{width:30px;height:30px;border-radius:9px;background:var(--b);display:grid;place-items:center;color:#0a2540}
+.nl{display:flex;gap:6px;margin-inline:auto}.nl a{padding:8px 16px;border-radius:99px;color:var(--mut);font-weight:500;transition:.3s}.nl a:hover,.nl a.on{color:var(--ink);background:var(--bg2)}
+.nr{display:flex;gap:10px;align-items:center}
+.mn{position:fixed;inset:0;z-index:60;background:var(--bg);padding:110px 6vw 40px;display:none;overflow:auto}.mn.o{display:block}
+.mn a{display:flex;align-items:baseline;gap:18px;font:700 clamp(30px,6vw,64px) 'Bricolage Grotesque';padding:6px 0;border-bottom:1px solid var(--line);overflow:hidden;transition:color .3s,padding .5s var(--ease)}.mn a small{font:500 13px 'DM Sans';color:var(--mut)}.mn a:hover{color:var(--bt);padding-inline-start:18px}
+.mc{position:fixed;top:18px;inset-inline-end:4vw;z-index:61}
+/* sections */
+main{min-height:100vh}.sec{padding:110px 6vw}.sec.s2{background:var(--bg2)}
+.ph{padding:170px 6vw 70px;position:relative;overflow:hidden}.ph:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 90% at 50% 0%,transparent 10%,var(--bg) 95%)}.ph h1{max-width:1100px}.ey{display:inline-flex;gap:10px;align-items:center;color:var(--bt);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px}
+.ey:before{content:"";width:28px;height:1px;background:var(--b)}
+.ph h1{font-size:clamp(40px,7vw,96px)}.lead{color:var(--mut);font-size:clamp(17px,1.6vw,21px);max-width:640px;margin-top:22px}
+h2{font-size:clamp(32px,4.6vw,64px);margin-bottom:18px}
+.hero{position:relative;min-height:100vh;padding:150px 6vw 80px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero h1{font-size:clamp(46px,9vw,148px);max-width:15ch}.hero .lead{margin-bottom:38px}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}.w>span{display:inline-block}
+.hsh{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}.hero:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 0%,transparent 20%,var(--bg) 92%)}
+.aur{position:absolute;inset:-20%;z-index:-1;background:radial-gradient(40% 40% at 25% 30%,color-mix(in srgb,var(--b) 28%,transparent),transparent 70%),radial-gradient(35% 35% at 80% 70%,color-mix(in srgb,var(--b2) 22%,transparent),transparent 70%);animation:aur 18s ease-in-out infinite alternate;filter:blur(30px)}
+@keyframes aur{to{transform:translate3d(4%,-3%,0) scale(1.15) rotate(6deg)}}
+.gb{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent);-webkit-mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent)}
+.hs{display:flex;gap:14px;flex-wrap:wrap;margin-top:70px}.chip{border:1px solid var(--line);background:color-mix(in srgb,var(--card) 70%,transparent);backdrop-filter:blur(10px);border-radius:18px;padding:16px 22px;min-width:150px;animation:fl 6s ease-in-out infinite}.chip:nth-child(2){animation-delay:-2s}.chip:nth-child(3){animation-delay:-4s}
+@keyframes fl{50%{transform:translateY(-10px)}}.chip b{display:block;font:700 30px 'Bricolage Grotesque'}.chip span{color:var(--mut);font-size:13px}
+.mq{overflow:hidden;border-block:1px solid var(--line);padding:22px 0;white-space:nowrap}.mq div{display:inline-block;animation:mq 34s linear infinite}[dir=rtl] .mq div{animation-direction:reverse}
+.mq span{font:700 clamp(24px,4vw,46px) 'Bricolage Grotesque';padding:0 26px;color:var(--mut)}.mq span:nth-child(even){color:var(--bt)}@keyframes mq{to{transform:translateX(-50%)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{position:relative;border:1px solid var(--line);background:var(--card);border-radius:22px;padding:28px;transition:border-color .4s,transform .6s var(--ease);transform-style:preserve-3d;overflow:hidden}
+.card:before{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at var(--mx,50%) var(--my,0),color-mix(in srgb,var(--b) 14%,transparent),transparent 60%);opacity:0;transition:opacity .4s}.card:hover:before{opacity:1}.card:hover{border-color:color-mix(in srgb,var(--b) 50%,var(--line))}
+.card h3{font-size:22px;margin-bottom:10px;line-height:1.2}.card p{color:var(--mut)}
+.num{font:800 clamp(38px,4.4vw,60px) 'Bricolage Grotesque';letter-spacing:-.04em;line-height:1}.lb2{color:var(--mut);font-size:14px;margin-top:8px;display:flex;gap:8px;align-items:center}
+.step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:30px 0;border-top:1px solid var(--line)}.step b{font:800 44px 'Bricolage Grotesque';color:var(--bt)}.step h3{font-size:26px;margin-bottom:6px}.step p{color:var(--mut)}
+.faq{border-top:1px solid var(--line)}.faq button{width:100%;display:flex;justify-content:space-between;align-items:center;padding:26px 0;font:600 clamp(18px,2vw,24px) 'Bricolage Grotesque';text-align:start}
+.faq div{max-height:0;overflow:hidden;color:var(--mut);transition:max-height .7s var(--ease)}.faq div p{padding-bottom:26px;max-width:700px}.faq.o div{max-height:200px}.faq .ic{transition:transform .5s var(--ease)}.faq.o .ic{transform:rotate(45deg)}
+.cta{margin:0 6vw 90px;border-radius:32px;padding:clamp(40px,7vw,90px);background:var(--b);color:#0a2540;position:relative;overflow:hidden}.cta h2{max-width:14ch}.cta .btn{background:#0a2540;color:#fff}.cta:after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;border:1px solid rgba(255,255,255,.25);inset-inline-end:-120px;top:-120px;box-shadow:0 0 0 70px rgba(255,255,255,.06),0 0 0 150px rgba(255,255,255,.04)}
+.ft{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:34px 6vw;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);font-size:13px;font-weight:500}.dot{width:8px;height:8px;border-radius:50%;background:var(--bt);box-shadow:0 0 0 0 var(--bt);animation:pl 2s infinite}.dot.off{background:var(--mut);animation:none}@keyframes pl{70%{box-shadow:0 0 0 9px transparent}}
+/* app */
+.side{position:fixed;inset-block:0;inset-inline-start:0;width:272px;border-inline-end:1px solid var(--line);background:var(--bg);z-index:40;padding:22px 16px;overflow:auto;transition:transform .6s var(--ease)}
+.side .logo{padding:0 10px 22px}.sg{color:var(--mut);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:18px 12px 8px;font-weight:600}
+.nv{display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;color:var(--mut);font-weight:500;transition:.35s var(--ease);position:relative}.nv:hover{color:var(--ink);background:var(--bg2);transform:translateX(3px)}[dir=rtl] .nv:hover{transform:translateX(-3px)}.nv.on{color:#0a2540;background:var(--b)}
+.am{margin-inline-start:272px}.tb{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:14px 32px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.tb h3{font-size:19px;margin-inline-end:auto}.mb{display:none}.ap{padding:44px 32px 90px;max-width:1180px}.ap>*+*{margin-top:22px}.ap h1{font-size:clamp(32px,4vw,52px)}.ap .lead{margin-top:10px}
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.bars{display:flex;gap:12px;align-items:flex-end;height:190px;margin-top:20px}.bc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;font-size:12px;color:var(--mut)}.bc i{width:100%;border-radius:10px 10px 4px 4px;background:var(--b);min-height:3px;transform-origin:bottom;animation:gr 1.1s var(--ease) both}@keyframes gr{from{transform:scaleY(0)}}.bc b{color:var(--ink)}
+.rw{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-top:1px solid var(--line);font-size:15px}.rw:first-of-type{border:0}.rw span:last-child{color:var(--mut)}.ltr{direction:ltr;unicode-bidi:embed}
+input{width:100%;padding:17px 20px;border-radius:16px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:500 19px 'DM Sans';direction:ltr;transition:border-color .3s,box-shadow .3s}input:focus{outline:0;border-color:var(--bt);box-shadow:0 0 0 4px color-mix(in srgb,var(--b) 18%,transparent)}
+.code{font:800 clamp(38px,8vw,72px) 'Bricolage Grotesque';letter-spacing:.06em;color:var(--bt);direction:ltr;text-align:center;margin:10px 0}.er{color:var(--ink);font-weight:600;min-height:22px;margin-top:12px}
+.tg{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--line)}.sw{width:46px;height:26px;border-radius:99px;background:var(--line);position:relative;transition:.4s}.sw:after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.4s var(--ease)}.sw.on{background:var(--b)}.sw.on:after{inset-inline-start:23px}
+.sc{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:39;display:none}
+@media(max-width:900px){.nl{display:none}.nr{margin-inline-start:auto}.side{transform:translateX(-100%)}[dir=rtl] .side{transform:translateX(100%)}.side.o{transform:none}.sc.o{display:block}.am{margin:0}.mb{display:grid}.two{grid-template-columns:1fr}.tb{padding:12px 18px}.ap{padding:30px 18px 80px}.sec{padding:80px 6vw}.ph{padding-top:130px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+.wt{position:relative;height:90vh;min-height:560px;overflow:hidden;background:#000000;color:#fff}.wtroot{position:absolute;inset:0}.wtroot canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.wtx{position:absolute;inset-inline:6vw;bottom:11%;z-index:2}.wtx h1{font-size:clamp(40px,7vw,96px);max-width:1100px}.wtx .lead{color:rgba(255,255,255,.72)}.wtx .ey{color:#89cff0}.wtx .ey:before{background:#89cff0}
+.card-grid.flat{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.card-grid.flat .magic-bento-card{grid-column:auto!important;grid-row:auto!important;aspect-ratio:auto;min-height:170px}.magic-bento-card .num{font-size:clamp(38px,4vw,56px)}.magic-bento-card__label{color:var(--mut);font-size:14px}
+@media(max-width:520px){.sm-hr .btn{display:none}.sm-logo{font-size:18px}.staggered-menu-header{padding:1em 4vw}.sm-hr{gap:8px}}
+.card-grid{width:100%!important;margin:0!important;padding:0!important}.tag{white-space:nowrap}
 </style>
+<link rel="stylesheet" href="bento.css">
+<link rel="stylesheet" href="staggeredmenu.css">
+<link rel="stylesheet" href="pillnav.css">
 </head>
 <body>
-<div class="card">
-  <h1>🤖 تنصيب البوت</h1>
-  <p class="sub">اكتب رقمك بالصيغة الدولية بدون + أو أصفار</p>
-
-  <div id="form">
-    <input id="num" type="tel" inputmode="numeric" placeholder="مثال: 96879361xxxx" autocomplete="tel">
-    <button id="go">احصل على كود الربط</button>
-  </div>
-
-  <div id="result" class="hidden">
-    <div class="code" id="code"></div>
-    <button class="secondary" id="copy">نسخ الكود</button>
-    <div class="steps">
-      1) افتح واتساب ← الأجهزة المرتبطة<br>
-      2) اضغط «ربط جهاز»<br>
-      3) اختر «الربط برقم الهاتف بدلاً من ذلك»<br>
-      4) اكتب الكود أعلاه (صالح لدقائق قليلة)
-    </div>
-    <div class="ok" id="wait">⏳ بانتظار الربط...</div>
-  </div>
-
-  <div class="err" id="err"></div>
-</div>
+<div id="ld"><div class="orb"><div class="loader-wrapper"><span class="loader-letter">T</span><span class="loader-letter">A</span><span class="loader-letter">N</span><span class="loader-letter">J</span><span class="loader-letter">I</span><span class="loader-letter">R</span><span class="loader-letter">O</span><div class="loader"></div></div></div></div>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="shader.js"></script>
+<script src="bento.js"></script>
+<script src="staggeredmenu.js"></script>
+<script src="pillnav.js"></script>
+<script src="wireterrain.js"></script>
 <script>
-const $=id=>document.getElementById(id);
-let poll=null;
-$('go').onclick=async()=>{
-  const number=$('num').value.replace(/\D/g,'');
-  $('err').textContent='';
-  if(number.length<8){$('err').textContent='اكتب الرقم بشكل صحيح';return}
-  $('go').disabled=true;$('go').textContent='جاري توليد الكود...';
-  try{
-    const r=await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number})});
-    const d=await r.json();
-    if(!d.ok) throw new Error(d.error||'خطأ');
-    if(d.connected){$('form').classList.add('hidden');$('result').classList.remove('hidden');$('code').textContent='✅';$('wait').textContent='هذا الرقم مربوط من قبل';return}
-    $('form').classList.add('hidden');$('result').classList.remove('hidden');
-    $('code').textContent=d.code;
-    poll=setInterval(async()=>{
-      const s=await (await fetch('/api/status?number='+number)).json();
-      if(s.connected){clearInterval(poll);$('wait').textContent='✅ تم ربط البوت بنجاح!'}
-    },3000);
-  }catch(e){$('err').textContent=e.message;$('go').disabled=false;$('go').textContent='احصل على كود الربط'}
-};
-$('copy').onclick=()=>{navigator.clipboard?.writeText($('code').textContent.replace(/-/g,''));$('copy').textContent='تم النسخ ✓'};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+let L=localStorage.getItem('l')||'en',TH=localStorage.getItem('t')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'),MO=localStorage.getItem('m')!=='0',MY=localStorage.getItem('my')||'';
+const x=(a,b)=>L==='ar'?b:a;
+const I={home:"M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z",bolt:"M13 2 4 14h7l-1 8 9-12h-7z",shield:"M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z",chart:"M4 20V10M10 20V4M16 20v-7M22 20H2",users:"M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM21 20v-2a4 4 0 0 0-3-3.9M16 3.1a3.5 3.5 0 0 1 0 6.8",bot:"M12 8V4M8 4h8M5 8h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2zM9 14v1M15 14v1",term:"m4 7 5 5-5 5M12 19h8",book:"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M9 7h6",sl:"M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4",help:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 17h0",act:"M3 12h4l3-8 4 16 3-8h4",globe:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z",sun:"M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4",moon:"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z",menu:"M4 7h16M4 12h16M4 17h10",arrow:"M5 12h14M13 6l6 6-6 6",check:"m5 12 5 5 9-10",copy:"M9 9h10v11H9zM5 15V4h10",bell:"M6 16V11a6 6 0 1 1 12 0v5l2 2H4zM10 21h4",layers:"m12 3 9 5-9 5-9-5zM3 13l9 5 9-5",clock:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2",lock:"M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3",phone:"M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM11 18h2",x:"M6 6l12 12M18 6 6 18",plus:"M12 5v14M5 12h14",star:"m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",link:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",server:"M4 4h16v6H4zM4 14h16v6H4zM8 7h0M8 17h0"};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${I[n]}"/></svg>`;
+const J=async(u,o)=>{try{const r=await fetch(u,o);return await r.json()}catch{return null}};
+const ago=t=>{const m=Math.max(0,Math.round((Date.now()-t)/6e4));return m<1?x('just now','الآن'):m<60?x(m+' min ago','قبل '+m+' د'):m<1440?x(Math.round(m/60)+' h ago','قبل '+Math.round(m/60)+' س'):x(Math.round(m/1440)+' d ago','قبل '+Math.round(m/1440)+' يوم')};
+let S={st:null},SH=[],BN=null,WT=[];
+
+/* ---------- data ---------- */
+const PL=[['home','Home','الرئيسية'],['features','Features','المميزات'],['how','How it works','كيف يعمل'],['security','Security','الأمان'],['limits','Limits','الحدود'],['privacy','Privacy','الخصوصية'],['terms','Terms','الشروط'],['faq','FAQ','الأسئلة'],['about','About','حول'],['changelog','Changelog','التحديثات'],['status','Status','الحالة']];
+const PA=[['Main','الرئيسي',[['dashboard','Dashboard','لوحة التحكم','home'],['install','Install','التنصيب','bolt'],['bots','Installed bots','البوتات المنصّبة','bot']]],
+['Insights','التحليلات',[['stats','Statistics','الإحصائيات','chart'],['live','Live','مباشر','act'],['notifications','Activity','النشاط','bell']]],
+['Resources','المصادر',[['guides','Guides','الأدلة','book'],['security','Security','الأمان','shield']]],
+['Account','الحساب',[['settings','Settings','الإعدادات','sl'],['support','Support','الدعم','help'],['about','About','حول','star']]]];
+const FEAT=()=>[['bolt',x('Instant pairing','ربط فوري'),x('Get a real WhatsApp pairing code and link your number in seconds.','احصل على كود ربط حقيقي من واتساب واربط رقمك خلال ثوانٍ.')],['shield',x('Private by design','خصوصية بالتصميم'),x('Public pages show masked numbers only. You can unlink any time.','الصفحات العامة تعرض أرقاماً مخفية جزئياً، ويمكنك فك الربط متى شئت.')],['act',x('Live monitoring','مراقبة مباشرة'),x('Watch online visitors and connected bots in real time.','تابع الزوار المتصلين والبوتات المتصلة مباشرة.')],['chart',x('Real statistics','إحصائيات حقيقية'),x('Every number on this site is read from the running bot.','كل رقم في هذا الموقع مقروء من البوت أثناء تشغيله.')],['globe',x('English and Arabic','عربي وإنجليزي'),x('Switch language and direction instantly from the top bar.','بدّل اللغة والاتجاه فوراً من الشريط العلوي.')],['clock',x('Always restored','يعود تلقائياً'),x('Linked bots reconnect automatically after a server restart.','البوتات المربوطة تعيد الاتصال تلقائياً بعد إعادة تشغيل السيرفر.')]];
+const STEPS=()=>[[x('Enter your number','أدخل رقمك'),x('Use the international format, without a plus sign or leading zeros.','بالصيغة الدولية، بدون علامة + أو أصفار في البداية.')],[x('Receive a pairing code','استلم كود الربط'),x('A real eight-character code is generated by WhatsApp for your number.','يولّد واتساب كوداً حقيقياً من ثمانية رموز لرقمك.')],[x('Link in WhatsApp','اربط في واتساب'),x('Open Linked devices, choose Link with phone number, and type the code.','افتح الأجهزة المرتبطة، اختر الربط برقم الهاتف، واكتب الكود.')],[x('You are live','أصبح بوتك يعمل'),x('This page confirms the connection as soon as the bot is online.','تؤكد هذه الصفحة الاتصال فور ظهور البوت متصلاً.')]];
+const FAQ=()=>[[x('Is the code real?','هل الكود حقيقي؟'),x('Yes. It is generated by WhatsApp for your number through the official linking flow.','نعم، يولّده واتساب لرقمك عبر آلية الربط الرسمية.')],[x('Do I need to scan a QR code?','هل أحتاج لمسح QR؟'),x('No. Pairing by code replaces scanning.','لا، الربط بالكود يغني عن المسح.')],[x('How long is the code valid?','كم مدة صلاحية الكود؟'),x('A few minutes. If it expires, request a new one.','دقائق قليلة. إن انتهت اطلب كوداً جديداً.')],[x('How do I unlink?','كيف أفك الربط؟'),x('WhatsApp, Linked devices, then log out of the device.','واتساب، الأجهزة المرتبطة، ثم تسجيل الخروج من الجهاز.')]];
+
+/* ---------- helpers ---------- */
+const H=(e,t,s)=>`<header class="ph"><canvas class="hsh"></canvas><span class="ey rv">${e}</span><h1 class="split">${t}</h1><p class="lead rv">${s}</p></header>`;
+const G=a=>`<div class="grid">${a.map(([i,t,d])=>`<article class="card tilt rv">${ic(i,'ci')}<h3>${t}</h3><p>${d}</p></article>`).join('')}</div>`;
+const SEC=(b,c='')=>`<section class="sec ${c}">${b}</section>`;
+const ST=(k,l,i)=>`<div class="card tilt rv"><div class="num" data-s="${k}">—</div><div class="lb2">${ic(i)}${l}</div></div>`;
+const SB=(k,l,i,suf='')=>`<div class="magic-bento-card magic-bento-card--border-glow"><div class="magic-bento-card__header"><span class="magic-bento-card__label">${l}</span>${ic(i)}</div><div class="magic-bento-card__content"><div class="num" data-s="${k}" data-suf="${suf}">—</div></div></div>`;
+const FLAT=a=>`<div class="bento-section rv"><div class="card-grid flat">${a.join('')}</div></div>`;
+const fmtUp=t=>{const d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60);return d?d+'d '+h+'h':h?h+'h '+m+'m':m+'m'};
+const FQ=()=>`<div class="rv">${FAQ().map(([q,a])=>`<div class="faq"><button>${q}${ic('plus')}</button><div><p>${a}</p></div></div>`).join('')}</div>`;
+const CTA=()=>`<div class="cta rv"><h2 class="dsp">${x('Ready to link your number?','جاهز لربط رقمك؟')}</h2><a class="btn mag" href="#/app/install">${x('Install now','ثبّت الآن')}${ic('arrow','ar')}</a></div>`;
+const bars=d=>d?`<div class="bars">${d.map(o=>`<div class="bc"><b>${o.n}</b><i style="height:${Math.max(2,o.n/Math.max(1,...d.map(z=>z.n))*100)}%"></i><span class="ltr">${o.d}</span></div>`).join('')}</div>`:`<p class="lead">${x('Statistics are unavailable right now.','الإحصائيات غير متاحة حالياً.')}</p>`;
+const rec=()=>S.st?.recent?.length?S.st.recent.map(r=>`<div class="rw"><span class="ltr">${r.n}</span><span>${ago(r.t)}</span></div>`).join(''):`<p class="lead">${x('No installs recorded yet.','لا توجد عمليات تنصيب مسجّلة بعد.')}</p>`;
+
+const BENTO=()=>`<div class="bento-section rv"><div class="card-grid">${FEAT().map((f,i)=>`<div class="magic-bento-card magic-bento-card--border-glow"><div class="magic-bento-card__header"><span class="magic-bento-card__label">0${i+1}</span>${ic(f[0])}</div><div class="magic-bento-card__content"><h3 class="magic-bento-card__title">${f[1]}</h3><p class="magic-bento-card__description">${f[2]}</p></div></div>`).join('')}</div></div>`;
+/* ---------- landing pages ---------- */
+const P={
+terms:()=>H('07',x('Terms of use.','شروط الاستخدام.'),x('Plain rules for using the service.','قواعد واضحة لاستخدام الخدمة.'))+SEC(G([['phone',x('Your own number','رقمك أنت'),x('Link only a number you own or have permission to use.','اربط فقط رقماً تملكه أو لديك إذن باستخدامه.')],['shield',x('No abuse','لا إساءة استخدام'),x('Bots used for spam or abuse may be disconnected.','قد يُفصل أي بوت يُستخدم في الإزعاج أو الإساءة.')],['clock',x('As is','كما هي'),x('The service is provided without guarantees of uptime.','تُقدَّم الخدمة دون ضمان لمدة التشغيل.')],['link',x('Leave any time','اخرج متى شئت'),x('Unlink from WhatsApp and the session ends.','فك الربط من واتساب لتنتهي الجلسة.')]])),
+home:()=>`<section class="hero"><canvas id="hsh" class="hsh"></canvas><span class="ey rv">${x('WhatsApp bot hosting','استضافة بوت واتساب')}</span><h1 class="split">${x('Your own WhatsApp bot, linked in minutes.','بوت واتساب خاص بك، يرتبط خلال دقائق.')}</h1><p class="lead rv">${x('Enter your number, get a real pairing code, and link it. No QR codes. No setup.','أدخل رقمك، احصل على كود ربط حقيقي، واربطه. بلا QR وبلا إعدادات.')}</p><div class="rv" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn mag" href="#/app/dashboard">${x('Enter dashboard','دخول لوحة التحكم')}${ic('arrow','ar')}</a><a class="btn g mag" href="#/how">${x('How it works','كيف يعمل')}</a></div><div class="hs rv"><div class="chip"><b data-s="total">—</b><span>${x('Bots installed','بوتات منصّبة')}</span></div><div class="chip"><b data-s="online">—</b><span>${x('Online now','متصلون الآن')}</span></div><div class="chip"><b data-s="today">—</b><span>${x('Installs today','تنصيبات اليوم')}</span></div></div></section>
+<div class="mq"><div>${[...Array(2)].map(()=>[x('Instant pairing','ربط فوري'),x('Real code','كود حقيقي'),x('Bilingual','ثنائي اللغة'),x('Live stats','إحصائيات مباشرة'),x('Auto restore','استعادة تلقائية')].map(t=>`<span>${t}</span>`).join('')).join('')}</div></div>
+${SEC(`<span class="ey rv">${x('Why Tanjiro','لماذا Tanjiro')}</span><h2 class="split">${x('Built to feel effortless.','مصمم ليكون سهلاً.')}</h2>${BENTO()}`)}
+${SEC(`<span class="ey rv">${x('Live numbers','أرقام مباشرة')}</span><h2 class="split">${x('Real figures, updated live.','أرقام حقيقية تتحدث مباشرة.')}</h2><div class="grid g4">${ST('total',x('Bots installed','بوتات منصّبة'),'bot')}${ST('today',x('Installs today','تنصيبات اليوم'),'bolt')}${ST('online',x('Visitors online','زوار متصلون'),'users')}${ST('active',x('Active bots','بوتات نشطة'),'server')}</div>`,'s2')}
+${SEC(`<span class="ey rv">${x('How it works','كيف يعمل')}</span><h2 class="split">${x('Four steps to a live bot.','أربع خطوات إلى بوت يعمل.')}</h2>${STEPS().map((q,i)=>`<div class="step rv"><b>0${i+1}</b><div><h3>${q[0]}</h3><p>${q[1]}</p></div></div>`).join('')}`)}
+${SEC(`<span class="ey rv">${x('FAQ','الأسئلة')}</span><h2 class="split">${x('Quick answers.','إجابات سريعة.')}</h2>${FQ()}`,'s2')}${CTA()}`,
+features:()=>`<section class="wt"><div class="wtroot"><canvas></canvas></div><div class="wtx"><span class="ey rv">01</span><h1 class="split">${x('Everything you need.','كل ما تحتاجه.')}</h1><p class="lead rv">${x('Six things we care about, and nothing you will not use.','ست أمور نهتم بها، ولا شيء لن تستخدمه.')}</p></div></section>`+SEC(BENTO())+CTA(),
+how:()=>H('02',x('Four steps.','أربع خطوات.'),x('From a phone number to a running bot.','من رقم هاتف إلى بوت يعمل.'))+SEC(STEPS().map((s,i)=>`<div class="step rv"><b>0${i+1}</b><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join(''))+CTA(),
+security:()=>H('04',x('Security first.','الأمان أولاً.'),x('How linking and your data are handled.','كيف نتعامل مع الربط وبياناتك.'))+SEC(G([['lock',x('Official linking','ربط رسمي'),x('Uses WhatsApp’s own pairing-code flow.','يعتمد آلية كود الربط الرسمية في واتساب.')],['shield',x('Masked numbers','أرقام مخفية'),x('Public pages never show a full phone number.','الصفحات العامة لا تعرض رقماً كاملاً أبداً.')],['clock',x('Rate limited','محدود المعدل'),x('Repeated code requests are throttled per visitor.','تُقيَّد طلبات الكود المتكررة لكل زائر.')],['link',x('You stay in control','أنت المتحكم'),x('Unlink from WhatsApp whenever you like.','فك الربط من واتساب في أي وقت.')]])),
+limits:()=>H('05',x('Fair use.','استخدام عادل.'),x('Limits that keep the service stable for everyone.','حدود تبقي الخدمة مستقرة للجميع.'))+SEC(G([['clock',x('5 requests / 10 min','5 طلبات / 10 دقائق'),x('Code requests per visitor.','طلبات الكود لكل زائر.')],['server',x('Capacity cap','حد السعة'),x('The server accepts a limited number of linked bots at once.','يقبل السيرفر عدداً محدوداً من البوتات المربوطة في الوقت نفسه.')],['phone',x('One request per number','طلب واحد لكل رقم'),x('A new request waits until the previous one finishes.','ينتظر الطلب الجديد انتهاء السابق.')]])),
+privacy:()=>H('06',x('Privacy.','الخصوصية.'),x('What we keep, and why.','ما نحتفظ به ولماذا.'))+SEC(`<div class="card rv"><p>${x('To keep your bot running we store the number you link and its WhatsApp session files on the bot server. Public pages display masked numbers only. Visitor counts use a random anonymous identifier stored in your browser. Unlinking from WhatsApp ends the session.','لإبقاء بوتك يعمل نخزّن الرقم الذي تربطه وملفات جلسة واتساب على سيرفر البوت. الصفحات العامة تعرض أرقاماً مخفية فقط. يعتمد عدّاد الزوار على معرّف عشوائي مجهول في متصفحك. فك الربط من واتساب ينهي الجلسة.')}</p></div>`),
+faq:()=>H('07',x('Questions.','أسئلة.'),x('Short answers to common ones.','إجابات قصيرة للأسئلة الشائعة.'))+SEC(FQ()),
+about:()=>H('08',x('About Tanjiro.','عن Tanjiro.'),x('A simple way to run your own WhatsApp bot.','طريقة بسيطة لتشغيل بوت واتساب خاص بك.'))+SEC(G(FEAT().slice(0,3)))+CTA(),
+changelog:()=>H('09',x('Changelog.','التحديثات.'),x('What changed recently.','ما تغيّر مؤخراً.'))+SEC(`<div class="step rv"><b>${x('New','جديد')}</b><div><h3>${x('New dashboard','لوحة تحكم جديدة')}</h3><p>${x('Bilingual interface, light and dark themes, live statistics and an installed-bots page.','واجهة ثنائية اللغة، ثيمان فاتح وداكن، إحصائيات مباشرة وصفحة للبوتات المنصّبة.')}</p></div></div>`),
+status:()=>H('10',x('System status.','حالة النظام.'),x('Read live from the bot server.','تُقرأ مباشرة من سيرفر البوت.'))+SEC(`<div class="card rv" id="stc"></div><div class="grid g4" style="margin-top:18px">${ST('active',x('Active bots','البوتات النشطة'),'bot')}${ST('online',x('Online visitors','الزوار المتصلون'),'users')}${ST('uptime',x('Server uptime','مدة التشغيل'),'clock')}</div>`)};
+/* ---------- app pages ---------- */
+const AH=(t,s)=>`<div class="rv"><h1 class="dsp">${t}</h1><p class="lead">${s}</p></div>`;
+const A={
+security:()=>AH(x('Security','الأمان'),x('Keep your linked number safe.','حافظ على رقمك المربوط آمناً.'))+G([['lock',x('Keep your code private','أبقِ الكود سرياً'),x('Never share your pairing code. Anyone with it can link your number.','لا تشارك كود الربط أبداً. من يملكه يستطيع ربط رقمك.')],['link',x('Unlink a device','فك ربط جهاز'),x('WhatsApp, Linked devices, choose the device, then log out.','واتساب، الأجهزة المرتبطة، اختر الجهاز ثم سجّل الخروج.')],['shield',x('Check linked devices','راجع الأجهزة المرتبطة'),x('Review the list regularly and remove any you do not recognise.','راجع القائمة بانتظام واحذف أي جهاز لا تعرفه.')]]),
+dashboard:()=>AH(x('Dashboard','لوحة التحكم'),x('A live overview of the service.','نظرة مباشرة على الخدمة.'))+`${FLAT([SB('today',x('Installs today','تنصيبات اليوم'),'bolt'),SB('total',x('Total installs','إجمالي التنصيبات'),'bot'),SB('online',x('Online now','متصلون الآن'),'users'),SB('active',x('Active bots','بوتات نشطة'),'server')])}<div class="two"><div class="card rv"><h3>${x('Last 7 days','آخر 7 أيام')}</h3><div id="bz">${bars(S.st?.days)}</div></div><div class="card rv"><h3>${x('Recent installs','آخر التنصيبات')}</h3><div id="rc">${rec()}</div></div></div>`+`<div class="grid">${[['bolt','install',x('Install a bot','تنصيب بوت'),x('Link a number now.','اربط رقماً الآن.')],['chart','stats',x('Statistics','الإحصائيات'),x('See the full numbers.','شاهد الأرقام كاملة.')],['bot','bots',x('Installed bots','البوتات المنصّبة'),x('See who is linked.','شاهد من هو مربوط.')]].map(([i,h,t,d])=>`<a href="#/app/${h}" class="card tilt rv">${ic(i,'ci')}<h3>${t}</h3><p>${d}</p></a>`).join('')}</div>`,
+install:()=>AH(x('Install','التنصيب'),x('Enter your number in international format, without a plus sign.','أدخل رقمك بالصيغة الدولية بدون علامة +.'))+`<div class="card rv" style="max-width:560px"><div id="fm"><input id="num" type="tel" inputmode="numeric" placeholder="9689XXXXXXXX" value="${MY}"><button class="btn mag" id="go" style="width:100%;justify-content:center;margin-top:14px">${x('Get pairing code','احصل على كود الربط')}${ic('arrow','ar')}</button></div><div id="rs" style="display:none"><div class="code" id="cd"></div><button class="btn g" id="cp" style="width:100%;justify-content:center">${ic('copy')}${x('Copy code','انسخ الكود')}</button><p class="lead" style="font-size:15px">${x('In WhatsApp: Linked devices, Link a device, Link with phone number instead, then type the code.','في واتساب: الأجهزة المرتبطة، ربط جهاز، الربط برقم الهاتف بدلاً من ذلك، ثم اكتب الكود.')}</p><p class="tag" id="wt" style="margin-top:14px"><span class="dot"></span>${x('Waiting for link','بانتظار الربط')}</p></div><div class="er" id="er"></div></div>`,
+bots:()=>AH(x('Installed bots','البوتات المنصّبة'),x('Recent bots linked through this site. Numbers are partly hidden.','أحدث البوتات المربوطة عبر الموقع. الأرقام مخفية جزئياً.'))+`<div class="grid g4">${ST('total',x('Total installed','إجمالي المنصّبين'),'bot')}${ST('registered',x('Registered numbers','الأرقام المسجّلة'),'users')}${ST('active',x('Active now','نشط الآن'),'server')}</div><div class="card rv" id="rc">${rec()}</div>`+`<div class="card rv"><h3>${x('Your number','رقمك')}</h3><p class="ltr" style="margin-top:6px">${MY||'—'}</p><p class="tag" id="my" style="margin-top:14px">${MY?x('Checking...','جارٍ الفحص...'):x('Install a bot first','نصّب بوتاً أولاً')}</p></div>`,
+stats:()=>AH(x('Statistics','الإحصائيات'),x('Real figures from the running bot. Nothing is estimated.','أرقام حقيقية من البوت أثناء تشغيله. لا شيء مقدَّر.'))+`${FLAT([SB('today',x('Installs today','تنصيبات اليوم'),'bolt'),SB('total',x('Installs overall','إجمالي التنصيبات'),'bot'),SB('registered',x('Registered numbers','الأرقام المسجّلة'),'users'),SB('online',x('Open right now','يفتحون الموقع الآن'),'globe'),SB('rate',x('Link success rate','نسبة نجاح الربط'),'check','%')])}<div class="card rv"><h3>${x('Installs per day','التنصيبات يومياً')}</h3><div id="bz">${bars(S.st?.days)}</div></div><p class="lead rv" style="font-size:14px">${x('Registered numbers are numbers that requested a code. Installs are numbers that completed the link.','الأرقام المسجّلة هي التي طلبت كوداً. التنصيبات هي التي أكملت الربط.')}</p>`,
+live:()=>AH(x('Live','مباشر'),x('Updated every few seconds.','تتحدث كل بضع ثوانٍ.'))+`<div class="grid g4">${ST('online',x('Visitors online','زوار متصلون'),'users')}${ST('active',x('Bots connected','بوتات متصلة'),'server')}${ST('uptime',x('Server uptime','مدة التشغيل'),'clock')}</div><div class="card rv"><h3>${x('Latest installs','أحدث التنصيبات')}</h3><div id="rc">${rec()}</div></div>`,
+notifications:()=>AH(x('Activity','النشاط'),x('Recent events on the service.','أحدث الأحداث على الخدمة.'))+`<div class="two"><div class="card rv"><h3>${x('Installs per day','التنصيبات يومياً')}</h3><div id="bz">${bars(S.st?.days)}</div></div><div class="card rv"><h3>${x('Latest installs','أحدث التنصيبات')}</h3><div id="rc">${rec()}</div></div></div>`,
+guides:()=>AH(x('Guides','الأدلة'),x('Everything in four steps.','كل شيء في أربع خطوات.'))+`<div class="card rv">${STEPS().map((s,i)=>`<div class="step"><b>0${i+1}</b><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join('')}</div>`+`<div class="card rv"><h3>${x('Frequently asked','أسئلة شائعة')}</h3>${FQ()}</div>`,
+settings:()=>AH(x('Settings','الإعدادات'),x('Personalise your experience.','خصص تجربتك.'))+`<div class="card rv" style="max-width:560px"><div class="tg"><span>${x('Dark theme','الثيم الداكن')}</span><button class="sw ${TH==='dark'?'on':''}" data-a="th"></button></div><div class="tg"><span>${x('Arabic interface','الواجهة العربية')}</span><button class="sw ${L==='ar'?'on':''}" data-a="lg"></button></div><div class="tg"><span>${x('Smooth motion','الحركة السلسة')}</span><button class="sw ${MO?'on':''}" data-a="mo"></button></div><div class="tg"><span>${x('Forget my saved number','نسيان رقمي المحفوظ')}</span><button class="btn g" data-a="fg">${x('Clear','مسح')}</button></div></div>`,
+support:()=>AH(x('Support','الدعم'),x('Common problems and quick fixes.','مشاكل شائعة وحلول سريعة.'))+G([['phone',x('Code rejected','الكود مرفوض'),x('Check the number format, then request a new code.','تحقق من صيغة الرقم ثم اطلب كوداً جديداً.')],['clock',x('Code expired','انتهى الكود'),x('Codes last a few minutes. Request another.','يدوم الكود دقائق. اطلب غيره.')],['server',x('Bot unavailable','البوت غير متاح'),x('The server may be restarting. Try again in a minute.','قد يكون السيرفر يعيد التشغيل. حاول بعد دقيقة.')]])+`<div class="card rv"><h3>${x('Frequently asked','أسئلة شائعة')}</h3>${FQ()}</div>`,
+about:()=>AH('Tanjiro',x('A simple way to run your own WhatsApp bot.','طريقة بسيطة لتشغيل بوت واتساب خاص بك.'))+FLAT([SB('total',x('Bots installed','بوتات منصّبة'),'bot'),SB('registered',x('Registered numbers','الأرقام المسجّلة'),'users'),SB('uptime',x('Server uptime','مدة التشغيل'),'clock')])+G(FEAT())};
+
+/* ---------- shell + router ---------- */
+let mode='',lenis,MENU=null,PN=null;
+const lang=()=>`<button class="ib tx" data-a="lg">${L==='ar'?'EN':'AR'}</button>`,thm=()=>`<button class="ib" data-a="th">${ic(TH==='dark'?'sun':'moon')}</button>`;
+function shell(m){mode=m;
+MENU&&MENU();MENU=null;PN&&PN.dispose();PN=null;
+if(m==='land'){R.innerHTML=`<main id="pg"></main><footer class="ft"><span>Tanjiro</span><span>${x('Built for WhatsApp','مصمم لواتساب')}</span></footer>`;
+MENU=mountStaggeredMenu({items:PL.map(p=>({label:x(p[1],p[2]),link:'#/'+p[0]})),logo:`<a href="#/home" style="display:flex;align-items:center"><i>${ic('bolt')}</i>Tanjiro</a>`,extra:`${lang()}${thm()}<a class="btn mag" href="#/app/dashboard" style="padding:11px 20px">${x('Enter','دخول')}</a>`,menu:x('Menu','القائمة'),close:x('Close','إغلاق'),accent:TH==='dark'?'#89cff0':'#2a86bf',colors:TH==='dark'?['#04090d','#0a1a24','#12303f','#89cff0']:['#eaf6fd','#c9e8f8','#a6d8f3','#89cff0']})}
+else{R.innerHTML=`<aside class="side" id="sd"><a class="logo" href="#/home"><i>${ic('bolt')}</i>Tanjiro</a>${PA.map(g=>`<div class="sg">${x(g[0],g[1])}</div>${g[2].map(p=>`<a class="nv" href="#/app/${p[0]}" data-p="${p[0]}">${ic(p[3])}${x(p[1],p[2])}</a>`).join('')}`).join('')}</aside><div class="sc" id="sc" data-a="sd"></div><div class="am"><div class="tb"><button class="ib mb" data-a="sd">${ic('menu')}</button><h3 id="tt"></h3><div id="pn"></div><span class="tag"><span class="dot" id="dt"></span><span id="on">—</span></span>${lang()}${thm()}</div><main class="ap" id="pg"></main></div>`;
+PN=mountPillNav($('#pn'),{logo:ic('bolt'),items:[['dashboard',x('Dashboard','لوحة التحكم')],['install',x('Install','التنصيب')],['stats',x('Stats','الإحصائيات')],['live',x('Live','مباشر')],['bots',x('Bots','البوتات')]].map(p=>({href:'#/app/'+p[0],label:p[1]})),vars:TH==='dark'?{base:'#89cff0',pill:'#06090c',text:'#f3f9fd',hover:'#000000'}:{base:'#89cff0',pill:'#ffffff',text:'#0a0f1e',hover:'#0a0f1e'}})}}
+function route(){const h=location.hash.replace(/^#\//,'')||'home',app=h.startsWith('app/'),k=app?h.slice(4):h,pg=app?A[k]:P[k];if(!pg){location.hash='#/home';return}
+if(mode!==(app?'app':'land'))shell(app?'app':'land');
+ScrollTrigger.getAll().forEach(t=>t.kill());SH.forEach(m=>m.dispose());SH=[];WT.forEach(f=>f&&f());WT=[];if(BN){BN();BN=null}$('#pg').innerHTML=pg();$$('[data-p]').forEach(a=>a.classList.toggle('on',a.dataset.p===k));PN&&PN.setActive('#/app/'+k);
+if(app){const f=PA.flatMap(g=>g[2]).find(p=>p[0]===k);$('#tt').textContent=f?x(f[1],f[2]):'';$('#sd')?.classList.remove('o');$('#sc')?.classList.remove('o')}
+$('#mn')?.classList.remove('o');lenis?.scrollTo(0,{immediate:true});scrollTo(0,0);post();
+if(MO)gsap.fromTo('#pg',{opacity:0,y:28},{opacity:1,y:0,duration:.9,ease:'expo.out'});if(k==='status')status()}
+function post(){setS();if($('#my')&&MY)J('/api/status?number='+MY).then(d=>{const e=$('#my');if(e)e.innerHTML=`<span class="dot ${d?.connected?'':'off'}"></span>${d?(d.connected?x('Linked and online','مربوط ويعمل'):x('Not linked','غير مربوط')):x('Server unreachable','السيرفر غير متاح')}`});$$('.wtroot').forEach(r=>{if(window.mountWireTerrain)WT.push(mountWireTerrain(r,$('canvas',r),{background:'#000000',lineColor:'#89cff0',accent:'#d6eefb'}))});if($('.card-grid')&&window.initBento)BN=initBento($('.card-grid'));$$('.hsh').forEach(c=>{const m=window.mountShader&&mountShader(c,TH);m&&SH.push(m)});
+$$('.split').forEach(e=>{e.innerHTML=e.textContent.split(' ').map(w=>`<span class="w"><span>${w}</span></span>`).join(' ');if(MO)gsap.from($$('.w>span',e),{yPercent:115,duration:1.1,ease:'expo.out',stagger:.06,delay:.15})});
+$$('.rv').forEach(e=>{if(MO)gsap.from(e,{y:42,opacity:0,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:e,start:'top 92%'}})});
+$$('.tilt').forEach(c=>{c.onmousemove=e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%');if(MO)c.style.transform=`perspective(900px) rotateX(${(.5-py)*5}deg) rotateY(${(px-.5)*5}deg) translateY(-3px)`};c.onmouseleave=()=>c.style.transform=''});
+$$('.mag').forEach(b=>{b.onmousemove=e=>{const r=b.getBoundingClientRect();if(MO)gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.22,y:(e.clientY-r.top-r.height/2)*.3,duration:.5,ease:'power3.out'})};b.onmouseleave=()=>gsap.to(b,{x:0,y:0,duration:.8,ease:'elastic.out(1,.4)'})});
+$$('.faq button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('o'));
+$('#go')&&($('#go').onclick=pair)}
+function setS(){$$('[data-s]').forEach(e=>{const v=S.st?.[e.dataset.s];if(v==null){e.textContent='—';return}if(e.dataset.s==='uptime'){e.textContent=fmtUp(v);return}const o={n:+e.dataset.v||0};e.dataset.v=v;gsap.to(o,{n:v,duration:1.2,ease:'power2.out',onUpdate:()=>e.textContent=Math.round(o.n).toLocaleString('en-US')+(e.dataset.suf||'')})});
+const ok=!!S.st;$('#on')&&($('#on').textContent=ok?(S.st.online+' '+x('online','متصل')):x('offline','غير متصل'));$('#dt')?.classList.toggle('off',!ok);
+$('#bz')&&($('#bz').innerHTML=bars(S.st?.days));$$('#rc').forEach(e=>e.innerHTML=rec())}
+function status(){const e=$('#stc');if(!e)return;const ok=!!S.st;e.innerHTML=`<h3>${ok?x('All systems operational','كل الأنظمة تعمل'):x('Bot server unreachable','سيرفر البوت غير متاح')}</h3><p style="margin-top:10px"><span class="tag"><span class="dot ${ok?'':'off'}"></span>${ok?x('Operational','يعمل'):x('Offline','متوقف')}</span></p>`}
+async function load(){const d=await J('/api/stats');S.st=d&&d.ok?d:null;if(S.st&&S.st.registered)S.st.rate=Math.round(S.st.total/S.st.registered*100);setS();status()}
+async function pair(){const n=$('#num').value.replace(/\D/g,''),er=$('#er');er.textContent='';if(n.length<8){er.textContent=x('Enter a valid number.','أدخل رقماً صحيحاً.');return}
+const b=$('#go');b.disabled=true;const d=await J('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number:n})});b.disabled=false;
+if(!d||!d.ok){er.textContent=d?.error||x('Server is unavailable. Try again shortly.','السيرفر غير متاح. حاول بعد قليل.');return}
+MY=n;localStorage.setItem('my',n);$('#fm').style.display='none';$('#rs').style.display='block';$('#cd').textContent=d.connected?'OK':d.code;$('#cp').onclick=()=>{navigator.clipboard?.writeText(d.code.replace(/-/g,''))};
+if(d.connected){$('#wt').lastChild.textContent=x('Already linked','مربوط مسبقاً');return}
+const t=setInterval(async()=>{if(!$('#wt')){clearInterval(t);return}const s=await J('/api/status?number='+n);if(s?.connected){clearInterval(t);$('#wt').innerHTML=`${ic('check')}${x('Linked successfully','تم الربط بنجاح')}`;load()}},3000)}
+/* ---------- actions ---------- */
+document.addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a)return;
+if(a==='th'){TH=TH==='dark'?'light':'dark';localStorage.setItem('t',TH);document.documentElement.dataset.t=TH;shell(mode);route()}
+if(a==='lg'){L=L==='ar'?'en':'ar';localStorage.setItem('l',L);document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';shell(mode);route()}
+if(a==='mn')$('#mn').classList.toggle('o');if(a==='sd'){$('#sd').classList.toggle('o');$('#sc').classList.toggle('o')}
+if(a==='mo'){MO=!MO;localStorage.setItem('m',MO?'1':'0');route()}if(a==='fg'){MY='';localStorage.removeItem('my');route()}});
+document.addEventListener('mousemove',e=>{const c=e.target.closest?.('.card');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}},{passive:true});
+/* ---------- boot ---------- */
+const R=$('#root');document.documentElement.dataset.t=TH;document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+gsap.registerPlugin(ScrollTrigger);
+if(window.Lenis){lenis=new Lenis({duration:1.15,lerp:.09,smoothWheel:true,wheelMultiplier:1,touchMultiplier:1.6});lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
+setTimeout(()=>gsap.to('#ld',{opacity:0,duration:.9,ease:'power2.inOut',onComplete:()=>$('#ld')?.remove()}),2200);
+addEventListener('hashchange',route);route();load();setInterval(load,12000);
+const VID=localStorage.getItem('vid')||(localStorage.setItem('vid',Math.random().toString(36).slice(2)+Date.now().toString(36)),localStorage.getItem('vid'));
+const ping=()=>J('/api/ping',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:VID})});ping();setInterval(ping,25000);
 </script>
 </body>
 </html>
