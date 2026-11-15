@@ -2,8 +2,9 @@
 (function () {
   window.createGuideSection = function (x, context = 'home') {
     const isApp = context === 'app';
+    const isInstall = context === 'install';
     return `
-      <section class="guide-section ${isApp ? 'guide-section-app' : ''}" aria-labelledby="pairing-guide-title">
+      <section class="guide-section ${isApp || isInstall ? 'guide-section-app' : ''}" aria-labelledby="pairing-guide-title">
         <div class="guide-heading">
           <span class="ey">${x('Quick visual guide', 'شرح مرئي سريع')}</span>
           <h2 id="pairing-guide-title">${x('Copy the code. Link your bot.', 'انسخ الرمز. اربط البوت.')}</h2>
@@ -29,7 +30,7 @@
                 <li><b>02</b><span>${x('Tap “Copy code”.', 'اضغط «نسخ الرمز».')}</span></li>
                 <li><b>03</b><span>${x('In WhatsApp, open Linked devices and paste the code.', 'في واتساب افتح «الأجهزة المرتبطة» والصق الرمز.')}</span></li>
               </ol>
-              <a class="btn mag guide-cta" href="#/app/install">${x('Get a pairing code', 'احصل على رمز الربط')} ${'<span aria-hidden="true">↗</span>'}</a>
+              ${isInstall ? '' : `<a class="btn mag guide-cta" href="#/app/install">${x('Get a pairing code', 'احصل على رمز الربط')} ${'<span aria-hidden="true">↗</span>'}</a>`}
             </div>
             <div class="guide-art-grid">
               <figure><img src="/media/pairing-flow-art.webp" alt="${x('Illustration of a pairing code moving from a site to a phone', 'رسم توضيحي لانتقال رمز الربط من الموقع إلى الهاتف')}" loading="lazy"><figcaption>${x('Copy from Tanjiro', 'انسخ من Tanjiro')}</figcaption></figure>
