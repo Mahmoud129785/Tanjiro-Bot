@@ -358,3 +358,10 @@
 
 /* site additions */
 .sm-hr{display:flex;gap:10px;align-items:center}.staggered-menu-header{padding:1.1em 4vw;background:linear-gradient(var(--bg),transparent)}.sm-logo{font:800 21px 'Bricolage Grotesque';letter-spacing:-.02em;color:var(--ink)}.sm-logo i{width:30px;height:30px;border-radius:9px;background:var(--b);display:inline-grid;place-items:center;color:#0a0f1e;margin-inline-end:10px}
+/* cleaner menu */
+.staggered-menu-panel{padding:5.5em 6vw 2em}
+.sm-panel-list{gap:0}
+.sm-panel-itemWrap{border-bottom:1px solid var(--line)}
+.sm-panel-item{color:var(--ink)!important;font:600 clamp(20px,5vw,28px) 'Bricolage Grotesque';letter-spacing:-.01em;text-transform:none;display:flex;align-items:center;justify-content:space-between;padding:14px 0!important;width:100%}
+.sm-panel-item:hover{color:var(--bt)!important}
+.sm-panel-list[data-numbering] .sm-panel-item::after{position:static!important;font-size:13px!important;color:var(--mut)!important;margin:0!important}
