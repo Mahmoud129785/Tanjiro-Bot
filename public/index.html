@@ -3,7 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tanjiro</title>
+<title>Tanjiro Bot — WhatsApp pairing</title>
+<meta name="description" content="Link your WhatsApp bot with Tanjiro and follow its connection status.">
+<meta property="og:title" content="Tanjiro Bot — WhatsApp pairing">
+<meta property="og:description" content="Link your WhatsApp bot with Tanjiro and follow its connection status.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="community.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -113,6 +120,8 @@ input{width:100%;padding:17px 20px;border-radius:16px;border:1px solid var(--lin
 <script src="pillnav.js"></script>
 <script src="wireterrain.js"></script>
 <script src="guide.js"></script>
+<script src="pairing-state.js"></script>
+<script src="community.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 let L=localStorage.getItem('l')||'en',TH=localStorage.getItem('t')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'),MO=localStorage.getItem('m')!=='0',MY=localStorage.getItem('my')||'';
@@ -186,9 +195,9 @@ const lang=()=>`<button class="ib tx" data-a="lg">${L==='ar'?'EN':'AR'}</button>
 function shell(m){mode=m;
 MENU&&MENU();MENU=null;PN&&PN.dispose();PN=null;
 if(m==='land'){R.innerHTML=`<main id="pg"></main><footer class="ft"><span>Tanjiro</span><span>${x('Built for WhatsApp','مصمم لواتساب')}</span></footer>`;
-MENU=mountStaggeredMenu({items:PL.map(p=>({label:x(p[1],p[2]),link:'#/'+p[0]})),logo:`<a href="#/home" style="display:flex;align-items:center"><i>${ic('bolt')}</i>Tanjiro</a>`,extra:`${lang()}${thm()}<a class="btn mag" href="#/app/dashboard" style="padding:11px 20px">${x('Enter','دخول')}</a>`,menu:x('Menu','القائمة'),close:x('Close','إغلاق'),accent:TH==='dark'?'#89cff0':'#2a86bf',colors:TH==='dark'?['#04090d','#0a1a24','#12303f','#89cff0']:['#eaf6fd','#c9e8f8','#a6d8f3','#89cff0']})}
-else{R.innerHTML=`<aside class="side" id="sd"><a class="logo" href="#/home"><i>${ic('bolt')}</i>Tanjiro</a>${PA.map(g=>`<div class="sg">${x(g[0],g[1])}</div>${g[2].map(p=>`<a class="nv" href="#/app/${p[0]}" data-p="${p[0]}">${ic(p[3])}${x(p[1],p[2])}</a>`).join('')}`).join('')}</aside><div class="sc" id="sc" data-a="sd"></div><div class="am"><div class="tb"><button class="ib mb" data-a="sd">${ic('menu')}</button><h3 id="tt"></h3><div id="pn"></div><span class="tag"><span class="dot" id="dt"></span><span id="on">—</span></span>${lang()}${thm()}</div><main class="ap" id="pg"></main></div>`;
-PN=mountPillNav($('#pn'),{logo:ic('bolt'),items:[['dashboard',x('Dashboard','لوحة التحكم')],['install',x('Install','التنصيب')],['stats',x('Stats','الإحصائيات')],['live',x('Live','مباشر')],['bots',x('Bots','البوتات')]].map(p=>({href:'#/app/'+p[0],label:p[1]})),vars:TH==='dark'?{base:'#89cff0',pill:'#06090c',text:'#f3f9fd',hover:'#000000'}:{base:'#89cff0',pill:'#ffffff',text:'#0a0f1e',hover:'#0a0f1e'}})}}
+MENU=mountStaggeredMenu({items:PL.map(p=>({label:x(p[1],p[2]),link:'#/'+p[0]})),logo:`<a href="#/home" style="display:flex;align-items:center"><img class="brand-logo" src="media/tanjiro-logo.png" alt="" width="38" height="38">Tanjiro</a>`,extra:`${lang()}${thm()}<a class="btn mag" href="#/app/dashboard" style="padding:11px 20px">${x('Enter','دخول')}</a>`,menu:x('Menu','القائمة'),close:x('Close','إغلاق'),accent:TH==='dark'?'#89cff0':'#2a86bf',colors:TH==='dark'?['#04090d','#0a1a24','#12303f','#89cff0']:['#eaf6fd','#c9e8f8','#a6d8f3','#89cff0']})}
+else{R.innerHTML=`<aside class="side" id="sd"><a class="logo" href="#/home"><img class="brand-logo" src="media/tanjiro-logo.png" alt="" width="38" height="38">Tanjiro</a>${PA.map(g=>`<div class="sg">${x(g[0],g[1])}</div>${g[2].map(p=>`<a class="nv" href="#/app/${p[0]}" data-p="${p[0]}">${ic(p[3])}${x(p[1],p[2])}</a>`).join('')}`).join('')}</aside><div class="sc" id="sc" data-a="sd"></div><div class="am"><div class="tb"><button class="ib mb" data-a="sd">${ic('menu')}</button><h3 id="tt"></h3><div id="pn"></div><span class="tag"><span class="dot" id="dt"></span><span id="on">—</span></span>${lang()}${thm()}</div><main class="ap" id="pg"></main></div>`;
+PN=mountPillNav($('#pn'),{logo:`<img class="brand-logo" src="media/tanjiro-logo.png" alt="Tanjiro" width="32" height="32">`,items:[['dashboard',x('Dashboard','لوحة التحكم')],['install',x('Install','التنصيب')],['stats',x('Stats','الإحصائيات')],['live',x('Live','مباشر')],['bots',x('Bots','البوتات')]].map(p=>({href:'#/app/'+p[0],label:p[1]})),vars:TH==='dark'?{base:'#89cff0',pill:'#06090c',text:'#f3f9fd',hover:'#000000'}:{base:'#89cff0',pill:'#ffffff',text:'#0a0f1e',hover:'#0a0f1e'}})}}
 function route(){const h=location.hash.replace(/^#\//,'')||'home',app=h.startsWith('app/'),k=app?h.slice(4):h,pg=app?A[k]:P[k];if(!pg){location.hash='#/home';return}
 if(mode!==(app?'app':'land'))shell(app?'app':'land');
 ScrollTrigger.getAll().forEach(t=>t.kill());SH.forEach(m=>m.dispose());SH=[];WT.forEach(f=>f&&f());WT=[];if(BN){BN();BN=null}$('#pg').innerHTML=pg();$$('[data-p]').forEach(a=>a.classList.toggle('on',a.dataset.p===k));PN&&PN.setActive('#/app/'+k);
@@ -208,12 +217,20 @@ const ok=!!S.st;$('#on')&&($('#on').textContent=ok?(S.st.online+' '+x('online','
 $('#bz')&&($('#bz').innerHTML=bars(S.st?.days));$$('#rc').forEach(e=>e.innerHTML=rec())}
 function status(){const e=$('#stc');if(!e)return;const ok=!!S.st;e.innerHTML=`<h3>${ok?x('All systems operational','كل الأنظمة تعمل'):x('Bot server unreachable','سيرفر البوت غير متاح')}</h3><p style="margin-top:10px"><span class="tag"><span class="dot ${ok?'':'off'}"></span>${ok?x('Operational','يعمل'):x('Offline','متوقف')}</span></p>`}
 async function load(){const d=await J('/api/stats');S.st=d&&d.ok?d:null;if(S.st&&S.st.registered)S.st.rate=Math.round(S.st.total/S.st.registered*100);setS();status()}
+let pairTimer=null,pairAttempt=0;
+function clearPairPolling(){pairAttempt++;if(pairTimer){clearInterval(pairTimer);pairTimer=null}}
+function confirmPair(){const rs=$('#rs');if(!rs)return;rs.innerHTML=`<div class="pair-success" role="status" aria-live="polite">${ic('check')}<h3>${x('Linked successfully','تم الربط بنجاح')}</h3><p>${x('Your bot is connected and ready.','بوتك متصل وجاهز للاستخدام.')}</p></div>`;load()}
 async function pair(){const n=$('#num').value.replace(/\D/g,''),er=$('#er');er.textContent='';if(n.length<8){er.textContent=x('Enter a valid number.','أدخل رقماً صحيحاً.');return}
+clearPairPolling();const attempt=pairAttempt;
 const b=$('#go');b.disabled=true;const d=await J('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({number:n})});b.disabled=false;
+if(attempt!==pairAttempt||!b.isConnected)return;
 if(!d||!d.ok){er.textContent=d?.error||x('Server is unavailable. Try again shortly.','السيرفر غير متاح. حاول بعد قليل.');return}
-MY=n;localStorage.setItem('my',n);$('#fm').style.display='none';$('#rs').style.display='block';$('#cd').textContent=d.connected?'OK':d.code;$('#cp').onclick=async()=>{const s=$('#cpm');try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(d.code.replace(/-/g,''));s.textContent=x('Code copied. Paste it in WhatsApp.','تم نسخ الرمز. الصقه في واتساب.')}catch{s.textContent=x('Clipboard unavailable — copy the code manually.','الحافظة غير متاحة؛ انسخ الرمز يدوياً.')}};
-if(d.connected){$('#wt').lastChild.textContent=x('Already linked','مربوط مسبقاً');return}
-const t=setInterval(async()=>{if(!$('#wt')){clearInterval(t);return}const s=await J('/api/status?number='+n);if(s?.connected){clearInterval(t);$('#wt').innerHTML=`${ic('check')}${x('Linked successfully','تم الربط بنجاح')}`;load()}},3000)}
+MY=n;localStorage.setItem('my',n);$('#fm').style.display='none';$('#rs').style.display='block';
+if(PairingState.isConnected(d)){confirmPair();return}
+$('#cd').textContent=d.code||'';$('#cp').onclick=async()=>{const s=$('#cpm');try{if(!navigator.clipboard?.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(String(d.code||'').replace(/-/g,''));s.textContent=x('Code copied. Paste it in WhatsApp.','تم نسخ الرمز. الصقه في واتساب.')}catch{s.textContent=x('Clipboard unavailable — copy the code manually.','الحافظة غير متاحة؛ انسخ الرمز يدوياً.')}};
+let checking=false;
+pairTimer=setInterval(async()=>{if(checking)return;if(!$('#wt')){clearPairPolling();return}checking=true;const s=await J('/api/status?number='+n);checking=false;if(attempt!==pairAttempt)return;if(PairingState.isConnected(s)){clearPairPolling();confirmPair()}},3000)}
+addEventListener('hashchange',clearPairPolling);
 /* ---------- actions ---------- */
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a)return;
 if(a==='th'){TH=TH==='dark'?'light':'dark';localStorage.setItem('t',TH);document.documentElement.dataset.t=TH;shell(mode);route()}

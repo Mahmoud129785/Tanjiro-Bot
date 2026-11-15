@@ -1,0 +1,3 @@
+- Keep connection confirmation driven by the existing status endpoint's strict `connected: true` response; requesting a code is not successful linking.
+- Keep community links and dialogs in standalone browser assets so navigation rebuilds do not remove them.
+- Derive all platform logo placements and the favicon from the same raster source for consistent branding.
