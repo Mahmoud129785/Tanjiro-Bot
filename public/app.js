@@ -240,6 +240,7 @@ const A = {
 
   stats: () => AH(x('Statistics', 'الإحصائيات'), x('Real figures from the running bot. Nothing is estimated.', 'أرقام حقيقية من البوت أثناء تشغيله. لا شيء مقدَّر.'))
     + bentoWrap([stat('today', x('Installs today', 'تنصيبات اليوم'), 'bolt'), stat('total', x('Installs overall', 'إجمالي التنصيبات'), 'bot'), stat('registered', x('Registered numbers', 'الأرقام المسجّلة'), 'users'), stat('rate', x('Link success rate', 'نسبة نجاح الربط'), 'check', '%')])
+    + `<div class="card rv mk" id="mk" data-l="${L}"></div>`
     + `<div class="two"><div class="card rv"><h3 class="sm">${x('Installs per day', 'التنصيبات يومياً')}</h3><div id="bz">${bars(S.st?.days)}</div></div><div class="card rv"><h3 class="sm">${x('Latest installs', 'أحدث التنصيبات')}</h3><div id="rc">${rec()}</div></div></div>`
     + `<div class="ap-h rv"><h2 style="font-size:26px">${x('Live', 'مباشر')}</h2><p>${x('Updated every few seconds.', 'تتحدث كل بضع ثوانٍ.')}</p></div>`
     + bentoWrap([stat('online', x('Visitors online', 'زوار متصلون'), 'users'), stat('active', x('Bots connected', 'بوتات متصلة'), 'server'), stat('uptime', x('Server uptime', 'مدة التشغيل'), 'clock'), stat('ms', x('Response time', 'زمن الاستجابة'), 'act', ' ms')], 'c3')
@@ -347,7 +348,7 @@ function post(k, app) {
   document.body.classList.toggle('nomo', !MO);
   setS(); status();
   if ($('#my') && MY) J('/api/status?number=' + MY).then((d) => { const e = $('#my'); if (e) e.innerHTML = `<span class="dot ${d?.connected === true ? '' : 'off'}"></span>${d ? (PairingState.isConnected(d) ? x('Linked and online', 'مربوط ويعمل') : x('Not linked', 'غير مربوط')) : x('Server unreachable', 'السيرفر غير متاح') }`; });
-  const tg = $('.band'); if (tg && window.mountTiltedGrid) WT.push(mountTiltedGrid(tg, { images: ['a1', 'a5', 'a2', 'a3', 'a6', 'a4', 'a8'].map((n) => `/media/art/${n}.jpg`), speed: MO ? 5 : 100000, curve: 78, tileHeight: 64 }));
+  const tg = $('.band'); if (tg && window.mountTiltedGrid) WT.push(mountTiltedGrid(tg, { images: ['a1', 'a5', 'a2', 'a3', 'a6', 'a4', 'a8'].map((n) => `/media/ascii/${n}.jpg`), speed: MO ? 5 : 100000, curve: 78, tileHeight: 64 }));
   const kh = $('#kh'); if (kh && window.mountHeroHands) WT.push(mountHeroHands(kh, { sheet: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261030_025250_100df7b8-31fd-4614-aa4a-c1b7d5b6b273.png&w=1600&q=85', animate: MO, avoid: () => $$('.kh-copy h1, .kh-copy p, .kh-cta, .kh-chips', kh) }));
   // reveal on scroll
   const rv = $$('.rv');
@@ -416,6 +417,7 @@ async function load() {
   if (S.st) S.st.ms = Math.max(1, Math.round(performance.now() - t0));
   if (S.st && S.st.registered) S.st.rate = Math.round(S.st.total / S.st.registered * 100);
   setS(); status();
+  try { window.dispatchEvent(new CustomEvent('tb:stats', { detail: S.st })); } catch {}
 }
 
 /* ---------- pairing (success only when status says connected:true) ---------- */

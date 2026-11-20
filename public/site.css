@@ -486,3 +486,45 @@ html[lang=en] .nf h1{font:600 clamp(30px,5.6vw,46px)/1.15 var(--f-en-d);letter-s
 @media(max-width:899px){.kh{padding-top:clamp(40px,9svh,84px)}}
 @media(max-width:520px){.kh-chips{gap:12px 22px;padding-top:36px}}
 @media(prefers-reduced-motion:reduce){.kh-copy,.kh-chips{animation:none}.kh-canvas{transition:none}}
+
+/* ---------- 404: animated fire gradient ---------- */
+body:has(.nf-dark){background:#07060B;color:#fff}
+.nf-bg{position:fixed;inset:0;z-index:0;opacity:0;transform:scale(1.5);transition:opacity 2s cubic-bezier(.25,.1,.25,1),transform 2s cubic-bezier(.25,.1,.25,1)}
+.nf-bg.in{opacity:1;transform:scale(1)}
+.nf-grain{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(7,6,11,.75));}
+.nf-dark{position:relative;z-index:1;color:#fff}
+.nf-dark .nf-brand{color:rgba(255,255,255,.75)}
+.nf-dark .nf-brand i{background:#fff;color:#07060B}
+.nf-dark p{color:rgba(255,255,255,.78)}
+.nf-dark p.sub{color:rgba(255,255,255,.55)}
+.nf-dark .nf-code{color:#FFD23F;text-shadow:0 0 28px rgba(255,77,26,.7)}
+.nf-dark .nf-pill{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.85);background:rgba(7,6,11,.35);backdrop-filter:blur(8px)}
+.nf-dark .nf-cat g[fill],.nf-dark .nf-cat>g{fill:#07060B}
+.nf-dark .nf-cat{filter:drop-shadow(0 10px 30px rgba(255,77,26,.45))}
+.nf-dark .btn{background:#fff;color:#07060B;border-color:#fff}
+.nf-dark .btn:hover{background:#FFD23F;border-color:#FFD23F}
+.nf-dark h1{text-shadow:0 2px 24px rgba(0,0,0,.4)}
+@media (prefers-reduced-motion:reduce){.nf-bg{transition:none;opacity:1;transform:none}}
+
+/* ---------- Statistics: live trading board ---------- */
+.mk{--mk-grid:rgba(255,255,255,.07);background:#0B0C12;color:#fff;border-color:#1c1e29;padding:22px;overflow:hidden}
+.mk-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mk-tabs{display:flex;gap:4px;background:#14161f;padding:4px;border-radius:10px}
+.mk-tabs button{all:unset;cursor:pointer;padding:7px 14px;border-radius:7px;font-size:13px;color:rgba(255,255,255,.6);transition:.25s}
+.mk-tabs button.on{background:#232635;color:#fff}
+.mk-tabs button:hover{color:#fff}
+.mk-live{display:flex;align-items:center;gap:8px;font:700 11px/1 var(--f-en);letter-spacing:.2em;color:#00E676}
+.mk-pulse{width:8px;height:8px;border-radius:50%;background:#00E676;box-shadow:0 0 0 0 rgba(0,230,118,.7);animation:mkp 1.6s infinite}
+@keyframes mkp{70%{box-shadow:0 0 0 10px rgba(0,230,118,0)}100%{box-shadow:0 0 0 0 rgba(0,230,118,0)}}
+.mk-price{display:flex;align-items:baseline;gap:14px;margin:18px 0 10px;flex-wrap:wrap}
+.mk-price b{font:700 clamp(30px,5vw,44px)/1 var(--f-en);font-variant-numeric:tabular-nums}
+.mk-chg{font-size:14px;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.mk .up{color:#00E676}.mk .dn{color:#FF3D57}
+.mk-chart{position:relative;height:260px}
+.mk-chart canvas{width:100%;height:100%;display:block;cursor:crosshair}
+.mk-tip{position:absolute;top:6px;width:120px;text-align:center;font-size:12px;padding:5px 8px;border-radius:6px;background:#232635;color:#fff;pointer-events:none}
+.mk-tape{margin:16px -22px -22px;border-top:1px solid #1c1e29;overflow:hidden;white-space:nowrap;background:#090a0f}
+.mk-tape-in{display:inline-flex;gap:38px;padding:12px 22px;animation:mkt 28s linear infinite;font-size:13px;color:rgba(255,255,255,.6)}
+.mk-tape-in b{color:#fff;font-variant-numeric:tabular-nums}.mk-tape-in i{font-style:normal}
+@keyframes mkt{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mk-tape-in,.mk-pulse{animation:none}}
