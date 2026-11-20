@@ -1,3 +1,4 @@
 - Keep connection confirmation driven by the existing status endpoint's strict `connected: true` response; requesting a code is not successful linking.
 - Keep community links and dialogs in standalone browser assets so navigation rebuilds do not remove them.
 - Derive all platform logo placements and the favicon from the same raster source for consistent branding.
+- Home hero dots are read from the original hands sheet hosted on images.higgs.ai (allowed in the CSP img-src, loaded with CORS); if it is ever moved, update the URL in `public/app.js` and the CSP together.
