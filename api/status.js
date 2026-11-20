@@ -1,4 +1,4 @@
-const { getBackend, forward, isNumber, cleanNumber, secure, limited } = require('./_backend')
+const { forwardToBackend, isNumber, cleanNumber, secure, limited } = require('./_backend')
 
 module.exports = async (req, res) => {
   secure(res)
@@ -7,8 +7,7 @@ module.exports = async (req, res) => {
   const number = cleanNumber(req.query && req.query.number)
   if (!isNumber(number)) return res.status(400).json({ connected: false })
   try {
-    const base = await getBackend()
-    await forward(req, res, `${base}/api/status/${number}`)
+    await forwardToBackend(req, res, `/api/status/${number}`, {}, { timeoutMs: 10000, retries: 1 })
   } catch (e) {
     res.status(503).json({ connected: false })
   }

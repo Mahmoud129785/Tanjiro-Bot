@@ -300,17 +300,6 @@ main{min-height:60vh}
 .tip{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
 .tip .ic{width:26px;height:26px}
 
-/* ---------- guide (video walkthrough) ---------- */
-.guide{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,64px);align-items:center}
-.guide-v{border:1px solid var(--line2);border-radius:var(--rl);overflow:hidden;background:#fff}
-.guide-vt{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--mut);font-weight:500}
-.guide-p{display:grid;place-items:center;background:#fff;padding:18px}
-.guide-p video{height:min(66vh,560px);max-width:100%;aspect-ratio:9/16;object-fit:contain;background:#0A0A0A;border-radius:12px}
-.guide-c{font-size:13px;color:var(--faint);padding:12px 18px 16px;border-top:1px solid var(--line)}
-.guide h2{font-size:clamp(28px,3.4vw,44px);margin-bottom:16px}
-.guide .btn{margin-top:30px}
-.guide-embed{border:1px solid var(--line);border-radius:var(--rl);padding:clamp(20px,3vw,32px)}
-
 /* ---------- community dialog ---------- */
 .community-dialog{margin:auto;width:min(520px,calc(100% - 32px));max-height:85dvh;background:#fff;color:#0A0A0A;border:1px solid #0A0A0A;border-radius:var(--rl);padding:26px;overflow:auto}
 .community-dialog::backdrop{background:rgba(10,10,10,.4);backdrop-filter:blur(4px)}
@@ -350,7 +339,6 @@ html[lang=en] .nf h1{font:600 clamp(30px,5.6vw,46px)/1.15 var(--f-en-d);letter-s
   .art{max-width:560px}
   .steps{grid-template-columns:repeat(2,1fr)}
   .card-grid,.card-grid.c3{grid-template-columns:repeat(2,1fr)}
-  .guide{grid-template-columns:1fr}
   .doc{grid-template-columns:1fr}.doc-side{position:static}
   .install{grid-template-columns:1fr}
   .ft-top{grid-template-columns:repeat(3,1fr)}.ft-top>div:first-child{grid-column:1/-1}
@@ -417,13 +405,6 @@ html[lang=en] .nf h1{font:600 clamp(30px,5.6vw,46px)/1.15 var(--f-en-d);letter-s
 .ring circle{fill:none;stroke-width:1.5}
 .ring .rb{stroke:var(--line)}.ring .rf{stroke:#0A0A0A;stroke-dasharray:100;stroke-dashoffset:0;transition:stroke-dashoffset .3s linear}
 .timer b{color:#0A0A0A;font-weight:600;min-width:44px;font-variant-numeric:tabular-nums}
-/* QR card (3D tilt + scan line) */
-.qrc{perspective:900px;display:grid;place-items:center;margin:18px 0}
-.qrc-in{position:relative;width:min(260px,70vw);aspect-ratio:1;padding:14px;border:1px solid #0A0A0A;border-radius:18px;background:#fff;transition:transform .25s ease-out;transform-style:preserve-3d;overflow:hidden}
-.qrc-in img{width:100%;height:100%;image-rendering:pixelated}
-.scan{position:absolute;left:0;right:0;top:0;height:1.5px;background:#0A0A0A;animation:scan 3s ease-in-out infinite alternate}
-@keyframes scan{to{top:calc(100% - 1.5px)}}
-.nomo .scan{animation:none;top:50%}
 /* visual guide (phone mock) */
 .vg{display:grid;gap:22px}
 .vg-t{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}

@@ -1,4 +1,4 @@
-const { getBackend, forward, isVisitorId, secure, sameOrigin, limited } = require('./_backend')
+const { forwardToBackend, isVisitorId, secure, sameOrigin, limited } = require('./_backend')
 
 module.exports = async (req, res) => {
   secure(res)
@@ -8,12 +8,11 @@ module.exports = async (req, res) => {
   const id = String((req.body && req.body.id) || '')
   if (!isVisitorId(id)) return res.status(400).json({ ok: false })
   try {
-    const base = await getBackend()
-    await forward(req, res, `${base}/api/ping`, {
+    await forwardToBackend(req, res, '/api/ping', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
-    })
+    }, { timeoutMs: 10000, retries: 1 })
   } catch (e) {
     res.status(503).json({ ok: false })
   }
